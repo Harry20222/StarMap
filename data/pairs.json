@@ -1,0 +1,13 @@
+{
+  "id_convention": "TIER:NIRSpec_ID",
+  "pairs": [
+    ["goods-s-deephst:17160", "goods-s-deephst:19607"],
+    ["goods-s-deephst:17566", "goods-s-deephst:19342"],
+    ["goods-s-deephst:16996", "goods-s-deephst:21842"]
+  ],
+  "notes": [
+    "Similar redshifts near z=1.85; geometry includes a transverse component.",
+    "Two high-redshift galaxies near z=6; projected proximity does not imply a physical pair.",
+    "A foreground/background comparison near z=2.78 and z=7.98."
+  ]
+}

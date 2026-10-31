@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "catalog_check": "checksum and all 15 source rows match",
+  "image_sha256_matches": true,
+  "markers_inside_image": 15,
+  "max_parent_minus_crop_residual_pixels": 6.072115378255404e-08,
+  "max_wcs_roundtrip_residual_arcsec": 7.29835167024478e-11,
+  "independent_method": "8192-interval Simpson integration of Planck18 1/E(z), vector angular separation, Cartesian position subtraction",
+  "relative_tolerance": 1e-08,
+  "cross_checks": [
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "independent_measurements": {
+        "angular_separation_deg": 0.00643124888154582,
+        "distance_from_us_a_ly": 16569845806.32063,
+        "distance_from_us_b_ly": 16554966384.305975,
+        "estimated_3d_separation_ly": 14995110.73484123
+      },
+      "relative_differences": {
+        "angular_separation_deg": 2.4424371322408566e-13,
+        "distance_from_us_a_ly": 2.3021923741558716e-16,
+        "distance_from_us_b_ly": 3.456392339075947e-16,
+        "estimated_3d_separation_ly": 1.7626368444332223e-13
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:19342",
+      "independent_measurements": {
+        "angular_separation_deg": 0.0058526443159300535,
+        "distance_from_us_a_ly": 27618957977.226433,
+        "distance_from_us_b_ly": 27443076340.12736,
+        "estimated_3d_separation_ly": 175904118.3685048
+      },
+      "relative_differences": {
+        "angular_separation_deg": 7.238086751325469e-13,
+        "distance_from_us_a_ly": 1.3811879755820106e-15,
+        "distance_from_us_b_ly": 1.3900399570171864e-15,
+        "estimated_3d_separation_ly": 2.6260669806579462e-14
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "independent_measurements": {
+        "angular_separation_deg": 0.01049947531596551,
+        "distance_from_us_a_ly": 20468114616.645336,
+        "distance_from_us_b_ly": 29765581326.11208,
+        "estimated_3d_separation_ly": 9297467809.706879
+      },
+      "relative_differences": {
+        "angular_separation_deg": 1.3151513245407914e-13,
+        "distance_from_us_a_ly": 1.8637267462449932e-16,
+        "distance_from_us_b_ly": 4.741845868278257e-15,
+        "estimated_3d_separation_ly": 1.4770591775442735e-14
+      }
+    }
+  ],
+  "visual_verification": "See results/alignment_review.md and alignment_stamps.png; numerical WCS checks alone do not prove source identification."
+}

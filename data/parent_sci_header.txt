@@ -1,0 +1,87 @@
+XTENSION= 'IMAGE   '           / Image extension                                
+BITPIX  =                  -32 / array data type                                
+NAXIS   =                    2 / number of array dimensions                     
+NAXIS1  =                25000                                                  
+NAXIS2  =                27700                                                  
+PCOUNT  =                    0 / number of parameters                           
+GCOUNT  =                    1 / number of groups                               
+EXTNAME = 'SCI     '           / extension name                                 
+MJD-BEG =    59859.57775769063 / [d] exposure start time in MJD                 
+MJD-AVG =    59860.54966980405 / [d] exposure mid-point in MJD                  
+MJD-END =    59862.80147789352 / [d] exposure end time in MJD                   
+TDB-BEG =    59859.58049008405 / [d] TDB time of exposure start in MJD          
+TDB-MID =    59860.55245452511 / [d] TDB time of exposure mid-point in MJD      
+TDB-END =    59862.80438210233 / [d] TDB time of exposure end in MJD            
+XPOSURE =             141725.4 / [s] Effective exposure time                    
+TELAPSE =             141725.4 / [s] Total elapsed exposure time                
+                                                                                
+        JWST ephemeris information                                              
+                                                                                
+REFFRAME= 'EME2000 '           / Ephemeris reference frame                      
+EPH_TYPE= 'Predicted'          / Definitive or Predicted                        
+EPH_TIME=    59861.12013888889 / [d] MJD time of position and velocity vectors  
+JWST_X  =    143780887.3607802 / [km] barycentric JWST X coordinate at MJD_AVG  
+JWST_Y  =    36949995.89509699 / [km] barycentric JWST Y coordinate at MJD_AVG  
+JWST_Z  =    16443011.74077679 / [km] barycentric JWST Z coordinate at MJD_AVG  
+OBSGEO-X=      1122219673.9333 / [m] geocentric JWST X coordinate at MJD_AVG    
+OBSGEO-Y=     218528118.296889 / [m] geocentric JWST Y coordinate at MJD_AVG    
+OBSGEO-Z=      487418542.98729 / [m] geocentric JWST Z coordinate at MJD_AVG    
+JWST_DX =   -8.609848550543726 / [km/s] barycentric JWST X velocity at MJD_AVG  
+JWST_DY =    26.71878899327772 / [km/s] barycentric JWST Y velocity at MJD_AVG  
+JWST_DZ =    11.57439569565552 / [km/s] barycentric JWST Z velocity at MJD_AVG  
+OBSGEODX=    -169.351919208124 / [m/s] geocentric JWST X velocity at MJD_AVG    
+OBSGEODY=     509.701945614666 / [m/s] geocentric JWST Y velocity at MJD_AVG    
+OBSGEODZ=     213.743026553598 / [m/s] geocentric JWST Z velocity at MJD_AVG    
+PA_APER =    308.3675190944271 / [deg] Position angle of aperture used          
+VA_SCALE=    1.000029666327887 / Velocity aberration scale factor               
+BUNIT   = 'MJy/sr  '           / physical units of the array values             
+                                                                                
+        Photometry information                                                  
+                                                                                
+PHOTMJSR=    2.055999994277954 / Flux density (MJy/steradian) producing 1 cps   
+PHOTUJA2=    48.32510905389183 / Flux density (uJy/arcsec2) producing 1 cps     
+PIXAR_SR= 2.12239146123051E-14 / Nominal pixel area in steradians               
+PIXAR_A2= 0.000899684595650763 / Nominal pixel area in arcsec^2                 
+                                                                                
+        Information about the coordinates in the file                           
+                                                                                
+RADESYS = 'ICRS    '           / Name of the coordinate reference frame         
+                                                                                
+        Spacecraft pointing information                                         
+                                                                                
+RA_V1   =    52.97468630691685 / [deg] RA of telescope V1 axis                  
+DEC_V1  =   -27.77413742879024 / [deg] Dec of telescope V1 axis                 
+PA_V3   =    308.0642812618353 / [deg] Position angle of telescope V3 axis      
+                                                                                
+        WCS parameters                                                          
+                                                                                
+WCSAXES =                    2 / number of World Coordinate System axes         
+CRPIX1  =              11924.5 / axis 1 coordinate of the reference pixel       
+CRPIX2  =              16791.5 / axis 2 coordinate of the reference pixel       
+CRVAL1  =    53.12278110761878 / first axis value at the reference pixel        
+CRVAL2  =   -27.80516045555555 / second axis value at the reference pixel       
+CTYPE1  = 'RA---TAN'           / Axis 1 type                                    
+CTYPE2  = 'DEC--TAN'           / Axis 2 type                                    
+CUNIT1  = 'deg     '           / Axis 1 units                                   
+CUNIT2  = 'deg     '           / Axis 2 units                                   
+CDELT1  =  8.3318730000584E-06 / Axis 1 coordinate increment at reference point 
+CDELT2  =  8.3318730000584E-06 / Axis 2 coordinate increment at reference point 
+PC1_1   =                 -1.0 / linear transformation matrix element           
+PC1_2   =                  0.0 / linear transformation matrix element           
+PC2_1   =                  0.0 / linear transformation matrix element           
+PC2_2   =                  1.0 / linear transformation matrix element           
+S_REGION= 'POLYGON ICRS  53.113123713 -27.885775103 53.113132499 &'             
+CONTINUE  '-27.786909153 53.005759518 -27.786860202 53.005652953 &'             
+CONTINUE  '-27.885725947&'                                                      
+CONTINUE  '' / spatial extent of the observation                                
+VELOSYS =              -8954.6 / [m/s] Barycentric correction to radial velocity
+EXTVER  =                    1 / extension value                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+END                                                                             

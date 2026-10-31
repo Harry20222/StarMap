@@ -1,0 +1,420 @@
+{
+  "schema_version": "1.0",
+  "cosmology": {
+    "name": "Planck18",
+    "class": "FlatLambdaCDM",
+    "H0": {
+      "value": 67.66,
+      "unit": "km / (Mpc s)"
+    },
+    "Om0": 0.30966,
+    "Ode0": 0.6888463055445441,
+    "Ob0": 0.04897,
+    "Ok0": 0.0,
+    "Tcmb0_K": 2.7255,
+    "Neff": 3.046,
+    "m_nu_eV": [
+      0.0,
+      0.0,
+      0.06
+    ],
+    "astropy_version": "8.0.2"
+  },
+  "distance_convention": "comoving; scale factor a0 = 1; light-years (ly)",
+  "interpretation": "3D separations are model-based estimates from redshift-space positions, not light-travel times or separations at either emission epoch. Peculiar velocities, redshift errors, and cosmological parameter errors are not propagated. Decimal digits do not indicate physical accuracy.",
+  "reliable_redshift_flags": [
+    "A",
+    "B"
+  ],
+  "dataset": {
+    "field": "GOODS-S",
+    "catalog_release": "JADES DR3",
+    "catalog_version": "v1.1",
+    "catalog_url": "https://archive.stsci.edu/hlsps/jades/dr3/goods-s/catalogs/hlsp_jades_jwst_nirspec_goods-s_prism-line-fluxes_v1.1_catalog.fits",
+    "catalog_hdu": 1,
+    "catalog_sha256": "7b532b33159b3ceeebe2eadc378c6cfe2d717723e532c5aecdf34a845b6441eb",
+    "image_release": "JADES DR2",
+    "image_version": "v2.0",
+    "image_url": "https://archive.stsci.edu/hlsps/jades/dr2/goods-s/images/hlsp_jades_jwst_nircam_goods-s-deep_f200w_v2.0_drz.fits",
+    "instrument": "JWST/NIRCam",
+    "filter": "F200W",
+    "image_file": "goods_s_f200w_cutout.fits",
+    "cutout_sha256": "b8da2263320ed3e763fda10f851fcccea89434bc530a64f6650c775f9ef37eb7",
+    "image_geometry": {
+      "origin_in_parent_pixels_zero_based": [
+        6905,
+        19816
+      ],
+      "shape_yx": [
+        2000,
+        2000
+      ],
+      "parent_shape_yx": [
+        27700,
+        25000
+      ],
+      "source_extension": "SCI",
+      "resized": false,
+      "pixel_convention": "zero-based pixel centers; x right, y up in origin=lower plots"
+    },
+    "image_center_icrs_deg": [
+      53.160622050813075,
+      -27.771611286298103
+    ],
+    "coordinate_columns": [
+      "RA_NIRCam",
+      "Dec_NIRCam"
+    ],
+    "redshift_column": "z_Spec",
+    "redshift_quality_column": "z_Spec_flag",
+    "redshift_uncertainty_column": null,
+    "redshift_uncertainty_note": "No published z_Spec uncertainty column in this table; line-flux errors are not redshift errors.",
+    "selection": "15 nearest unique NIRCam-matched goods-s-deephst targets to fixed center, flag A, z>0, DR_flag=False; sorted by NIRSpec_ID.",
+    "id_convention": "TIER:NIRSpec_ID; NIRCam_ID is retained separately, not used interchangeably.",
+    "quality_flag_meanings": {
+      "A": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "B": "Highly robust: emission lines with S/N > 5 in Prism/Clear spectra.",
+      "C": "Secure: visually identified spectral breaks and/or low-S/N emission lines.",
+      "D": "Tentative redshift.",
+      "E": "No redshift."
+    },
+    "quality_documentation_url": "https://archive.stsci.edu/hlsps/jades/hlsp_jades_readme.txt",
+    "release_note": "Fixed archival teaching dataset; DR4 supersedes most DR3 spectroscopy. No claim of using the latest redshifts.",
+    "references": [
+      "https://archive.stsci.edu/hlsp/jades",
+      "https://archive.stsci.edu/hlsps/jades/hlsp_jades_readme.txt",
+      "https://doi.org/10.17909/8tdj-8n28",
+      "https://arxiv.org/abs/2404.06531",
+      "https://arxiv.org/abs/2310.12340"
+    ],
+    "license": "CC BY 4.0 (JADES HLSP products)"
+  },
+  "galaxies": [
+    {
+      "galaxy_id": "goods-s-deephst:16996",
+      "ra_deg": 53.157853060257665,
+      "dec_deg": -27.7776214440572,
+      "redshift": 2.7754479844376094,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 16996,
+      "tier": "goods-s-deephst",
+      "nircam_id": 127922,
+      "catalog_row_index": 928,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:17160",
+      "ra_deg": 53.16241447854139,
+      "dec_deg": -27.77716254398949,
+      "redshift": 1.8502956189914272,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 17160,
+      "tier": "goods-s-deephst",
+      "nircam_id": 128275,
+      "catalog_row_index": 947,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:17566",
+      "ra_deg": 53.15610054974031,
+      "dec_deg": -27.775883129930218,
+      "redshift": 6.101533511321096,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 17566,
+      "tier": "goods-s-deephst",
+      "nircam_id": 209276,
+      "catalog_row_index": 983,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:18970",
+      "ra_deg": 53.156508191577295,
+      "dec_deg": -27.772253680464388,
+      "redshift": 3.7245882870436464,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 18970,
+      "tier": "goods-s-deephst",
+      "nircam_id": 210435,
+      "catalog_row_index": 993,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:18976",
+      "ra_deg": 53.16660104371029,
+      "dec_deg": -27.772403330225913,
+      "redshift": 6.327051824236397,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 18976,
+      "tier": "goods-s-deephst",
+      "nircam_id": 131971,
+      "catalog_row_index": 994,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:19342",
+      "ra_deg": 53.160622050813075,
+      "dec_deg": -27.771611286298103,
+      "redshift": 5.974287172942812,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 19342,
+      "tier": "goods-s-deephst",
+      "nircam_id": 132780,
+      "catalog_row_index": 996,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:19431",
+      "ra_deg": 53.16292117472793,
+      "dec_deg": -27.771411399640733,
+      "redshift": 3.3202491902613582,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 19431,
+      "tier": "goods-s-deephst",
+      "nircam_id": 210857,
+      "catalog_row_index": 997,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:19519",
+      "ra_deg": 53.16608703568162,
+      "dec_deg": -27.771263601193905,
+      "redshift": 3.604509731583053,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 19519,
+      "tier": "goods-s-deephst",
+      "nircam_id": 133114,
+      "catalog_row_index": 999,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:19607",
+      "ra_deg": 53.16003127901048,
+      "dec_deg": -27.77108680355394,
+      "redshift": 1.8474041908000198,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 19607,
+      "tier": "goods-s-deephst",
+      "nircam_id": 210970,
+      "catalog_row_index": 1001,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:20313",
+      "ra_deg": 53.15831557219568,
+      "dec_deg": -27.770071758578883,
+      "redshift": 2.844558282847051,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 20313,
+      "tier": "goods-s-deephst",
+      "nircam_id": 134521,
+      "catalog_row_index": 1003,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:21598",
+      "ra_deg": 53.15607620668576,
+      "dec_deg": -27.767656243433933,
+      "redshift": 1.7153189713682861,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 21598,
+      "tier": "goods-s-deephst",
+      "nircam_id": 137160,
+      "catalog_row_index": 1008,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:21842",
+      "ra_deg": 53.156826655326526,
+      "dec_deg": -27.767161319235875,
+      "redshift": 7.980506972822209,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 21842,
+      "tier": "goods-s-deephst",
+      "nircam_id": 137667,
+      "catalog_row_index": 1009,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:10005447",
+      "ra_deg": 53.16288222015503,
+      "dec_deg": -27.769289907677265,
+      "redshift": 6.622576403018016,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 10005447,
+      "tier": "goods-s-deephst",
+      "nircam_id": 135407,
+      "catalog_row_index": 2243,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:10008071",
+      "ra_deg": 53.154494941945345,
+      "dec_deg": -27.771498290483226,
+      "redshift": 2.22710272215573,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 10008071,
+      "tier": "goods-s-deephst",
+      "nircam_id": 210730,
+      "catalog_row_index": 2267,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    },
+    {
+      "galaxy_id": "goods-s-deephst:10013682",
+      "ra_deg": 53.16746035740885,
+      "dec_deg": -27.77200718325915,
+      "redshift": 7.275207715866792,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 10013682,
+      "tier": "goods-s-deephst",
+      "nircam_id": 334273,
+      "catalog_row_index": 2389,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available"
+    }
+  ],
+  "pairs": [
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00643124888154425,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 14995110.734838586,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:19342",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005852644315925817,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 175904118.3685094,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010499475315966891,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 9297467809.707016,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    }
+  ]
+}
