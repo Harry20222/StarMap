@@ -34,15 +34,15 @@ fsspec 2026.9.0, and pytest 9.2.0. Dependencies are declared in `pyproject.toml`
 From the repository root in PowerShell:
 
 ```powershell
-py -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e ".[dev]"
-.\.venv\Scripts\python.exe -m starmap
-.\.venv\Scripts\python.exe -m pytest -q --basetemp .pytest_cache\tmp
+py -m venv my_venv
+.\my_venv\Scripts\python.exe -m pip install -e ".[dev]"
+.\my_venv\Scripts\python.exe -m starmap
+.\my_venv\Scripts\python.exe -m pytest -q --basetemp .pytest_cache\tmp
 ```
 
-The existing project environment also works: use
-`.\my_venv\Scripts\python.exe` in place of `.\.venv\Scripts\python.exe`.
-On macOS/Linux use `python3 -m venv .venv` and `.venv/bin/python`.
+The Windows examples use `my_venv`; reuse the existing environment if it is
+already installed. On macOS/Linux use `python3 -m venv my_venv` and
+`my_venv/bin/python`.
 After installation, `starmap` is also available in the environment's Scripts/bin
 directory. Run commands from the repository root, or pass explicit data paths.
 
@@ -50,16 +50,25 @@ The default run writes `results/measurements.json`. The bundled `data/sample.jso
 is sufficient for calculations; no image download is required to calculate pairs.
 The native FITS cutout and parent WCS header are included for offline verification.
 
+### Run a single file
+
+After installing dependencies, open `run_starmap.py` in your editor, select the
+Python interpreter from `my_venv`, and press **Run**. No terminal command is
+needed. It prints the measurements for the three pairs in `data/pairs.json` and
+saves `results/measurements.json`. Data paths are resolved relative to the script,
+so the editor's working directory does not matter. Keep the rest of the project
+files alongside the launcher; it uses the existing modules and bundled data.
+
 ```powershell
 # Override the three default pairs with one pair; --pair can be repeated.
-.\.venv\Scripts\python.exe -m starmap --pair goods-s-deephst:17160 goods-s-deephst:19607 --output results\custom.json
+.\my_venv\Scripts\python.exe -m starmap --pair goods-s-deephst:17160 goods-s-deephst:19607 --output results\custom.json
 
 # Rebuild finding charts and perform independent numerical/WCS checks.
-.\.venv\Scripts\python.exe -m starmap.imaging
-.\.venv\Scripts\python.exe -m starmap.verify
+.\my_venv\Scripts\python.exe -m starmap.imaging
+.\my_venv\Scripts\python.exe -m starmap.verify
 
 # Optional: retrieve/cache original source files and rebuild the sample.
-.\.venv\Scripts\python.exe -m starmap.prepare
+.\my_venv\Scripts\python.exe -m starmap.prepare
 ```
 
 Edit `data/pairs.json` to change the default pair list. IDs use `TIER:NIRSpec_ID`;
