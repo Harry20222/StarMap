@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "cosmology": {
     "name": "Planck18",
     "class": "FlatLambdaCDM",
@@ -104,7 +104,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:17160",
@@ -120,7 +125,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:17566",
@@ -136,7 +146,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:18970",
@@ -152,7 +167,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:18976",
@@ -168,7 +188,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:19342",
@@ -184,7 +209,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:19431",
@@ -200,7 +230,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:19519",
@@ -216,7 +251,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:19607",
@@ -232,7 +272,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:20313",
@@ -248,7 +293,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:21598",
@@ -264,7 +314,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:21842",
@@ -280,7 +335,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:10005447",
@@ -296,7 +356,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:10008071",
@@ -312,7 +377,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     },
     {
       "galaxy_id": "goods-s-deephst:10013682",
@@ -328,7 +398,12 @@
       "coordinate_frame": "ICRS",
       "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
       "redshift_uncertainty_status": "not_published_in_selected_catalog",
-      "distance_status": "available"
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      }
     }
   ],
   "pairs": [

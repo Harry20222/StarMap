@@ -4,13 +4,13 @@ import astropy
 import astropy.units as u
 from astropy.cosmology import Planck18
 
-from .calculations import measure_pair
+from .calculations import comoving_distance_ly, measure_pair
 from .selection import select_pairs
 
 
 def build_results(sample_document, galaxies, pairs):
     return {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "cosmology": {
             "name": "Planck18", "class": type(Planck18).__name__,
             "H0": {"value": Planck18.H0.value, "unit": "km / (Mpc s)"},
@@ -29,7 +29,12 @@ def build_results(sample_document, galaxies, pairs):
         ),
         "reliable_redshift_flags": ["A", "B"],
         "dataset": sample_document["dataset"],
-        "galaxies": [g.metadata() for g in galaxies],
+        "galaxies": [
+            {**g.metadata(), "distance_from_us": {
+                "value": comoving_distance_ly(g), "unit": "ly", "convention": "comoving",
+            }}
+            for g in galaxies
+        ],
         "pairs": [measure_pair(a, b) for a, b in select_pairs(galaxies, pairs)],
     }
 

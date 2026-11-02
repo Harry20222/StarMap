@@ -1,14 +1,19 @@
 import json
+from dataclasses import replace
 from pathlib import Path
 
+import numpy as np
 from astropy.table import MaskedColumn, Table
 from astropy.wcs import WCS
+from PIL import Image
 import pytest
 
 from starmap import Galaxy
 from starmap.cli import main
 from starmap.data import load_catalog, load_sample
-from starmap.imaging import project_markers
+from starmap.imaging import export_clean_image, project_markers
+from starmap.calculations import comoving_distance_ly
+from starmap.output import build_results
 from starmap.selection import select_pairs
 from starmap.verify import verify
 
@@ -68,7 +73,32 @@ def test_offline_cli_outputs_three_pairs(tmp_path, capsys):
     assert result["cosmology"]["name"] == "Planck18"
     assert all(p["status"] == "available" for p in result["pairs"])
     assert all(g["redshift_uncertainty"] is None for g in result["galaxies"])
+    _, source = load_sample(ROOT / "data/sample.json")
+    for exported, galaxy in zip(result["galaxies"], source):
+        assert exported["distance_from_us"] == {
+            "value": comoving_distance_ly(galaxy), "unit": "ly", "convention": "comoving",
+        }
     assert "comoving" in capsys.readouterr().out
+
+
+def test_per_galaxy_export_keeps_unknown_distance_explicit():
+    document, galaxies = load_sample(ROOT / "data/sample.json")
+    unknown = replace(galaxies[0], redshift=None)
+    exported = build_results(document, [unknown], [])["galaxies"][0]
+    assert exported["distance_from_us"] == {"value": None, "unit": "ly", "convention": "comoving"}
+    assert exported["distance_status"] == "unknown"
+
+
+def test_clean_png_preserves_dimensions_and_flips_pixel_rows(tmp_path):
+    # A non-square, asymmetric array makes resizing or a missed Y flip observable.
+    pixels = np.array([[0., 1., 2.], [3., 4., 5.]])
+    output = tmp_path / "clean.png"
+    export_clean_image(pixels, output)
+    with Image.open(output) as image:
+        assert image.size == (3, 2)
+        rgba = np.asarray(image)
+    assert rgba[0, 0, 0] > rgba[1, 0, 0]
+    assert rgba[0, 2, 0] > rgba[0, 0, 0]
 
 
 def test_cli_pair_override_and_invalid_id(tmp_path):

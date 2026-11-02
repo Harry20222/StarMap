@@ -34,6 +34,16 @@ def norm_for(pixels):
     return ImageNormalize(finite, interval=PercentileInterval(99.5), stretch=AsinhStretch(0.04))
 
 
+def export_clean_image(pixels, destination: Path):
+    """Export native pixels without axes or markers, flipped for browser display.
+
+    Use the same grayscale/asinh stretch as the reference finding chart.
+    FITS pixel center (x, y) is PNG pixel center (x, height - 1 - y).
+    """
+    rgba = plt.get_cmap("gray")(norm_for(pixels)(pixels))
+    plt.imsave(destination, rgba, origin="lower")
+
+
 def make_charts(sample_path: Path, output_dir: Path):
     document, galaxies = load_sample(sample_path)
     image = sample_path.parent / document["dataset"]["image_file"]
@@ -41,8 +51,10 @@ def make_charts(sample_path: Path, output_dir: Path):
         pixels, wcs = hdul[0].data.copy(), WCS(hdul[0].header, fix=False).celestial
     markers = project_markers(galaxies, wcs, pixels.shape)
     output_dir.mkdir(parents=True, exist_ok=True)
+    export_clean_image(pixels, output_dir / "goods_s_f200w.png")
     write_json(output_dir / "markers.json", {
         "image": str(image), "shape_yx": list(pixels.shape),
+        "display_image": "goods_s_f200w.png",
         "pixel_origin": 0, "display_origin": "lower", "markers": markers,
         "frontend_note": "For a top-left-origin image, y_display = height - 1 - y; scale both axes when resizing.",
     })

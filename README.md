@@ -1,7 +1,7 @@
 # StarMap: JADES galaxy distances
 
-A small Python backend prototype for learning to match JWST images to galaxy
-catalogs and measure distances with Astropy's **Planck18** cosmology. The bundled
+A Python backend and React/TypeScript field explorer for learning to match JWST
+images to galaxy catalogs and measure distances with Astropy's **Planck18** cosmology. The bundled
 sample contains **15 real JADES galaxies with flag-A spectroscopic redshifts** in
 a single GOODS-S NIRCam F200W cutout. Three fixed pairs produce terminal output
 and frontend-friendly JSON without network access.
@@ -21,9 +21,50 @@ The prototype implements the current Python milestone:
   calculations, and output; provide a CLI and cached source retrieval.
 - Verify source rows, image positions, and calculations; include meaningful tests.
 
-The later milestone is a React/TypeScript/CSS interface with a selectable galaxy
-map and all four measurements, units, quality, and available errors. This
-milestone delivers the data and Python API that interface will consume.
+Frontend Prototype 1 lets you select any of the 15 quality-A galaxies on the
+GOODS-S image and inspect its estimated comoving distance, sky coordinates,
+redshift, quality, and published uncertainty status. Comparing two galaxies in
+the interface remains a later milestone.
+
+## Frontend: open the field explorer
+
+The frontend is in `frontend/` and uses React, TypeScript, CSS, and Vite. It
+imports the backend JSON files and clean PNG directly; **no Python API server
+is needed**. Node.js 20.19+ or 22.12+ is required (Node 24 was used here).
+
+First-time setup, from the repository root:
+
+```powershell
+cd frontend
+npm ci
+npm run dev
+```
+
+Open the Local URL printed by Vite. For subsequent runs, open **`run_frontend.py`**
+in your editor and press **Run**. It starts the Node/Vite preview and opens your
+browser; stop the script to stop that preview. This launcher is optional and
+does not run a Python web server. `run_starmap.py` still runs the backend exports.
+
+Thin green rings identify selectable quality-A galaxies; the legend count comes
+from the joined JSON data. A selected galaxy gets a distinct amber outline.
+Click another ring to update the inspector, or dismiss with its close button or
+Escape. Tab and Enter/Space also select markers. On small screens, the inspector
+appears below the image and scrolls into view without covering the other rings.
+
+To refresh data or imagery after backend changes, run these from the repo root:
+
+```powershell
+.\my_venv\Scripts\python.exe run_starmap.py
+.\my_venv\Scripts\python.exe -m starmap.imaging
+```
+
+Vite notices changes to the imported files during development. A production build
+must be rebuilt after exports change. From `frontend/`, `npm run build` creates
+the self-contained static site in `dist/`; `npm run preview` serves that build.
+The image, fonts, and catalog data are bundled locally. Use a static HTTP server
+to view the build rather than double-clicking its HTML file.
+
+See `frontend/README.md` for component structure, data flow, and browser tests.
 
 ## Install and run
 
@@ -202,6 +243,16 @@ for display; the JSON retains the calculated floating-point values.
 shows 3-arcsec stamps with open rings, preserving source visibility. Visual
 inspection is recorded in `results/alignment_review.md`; some targets are faint
 in this single filter. Dark masked regions in the mosaic are not sky structures.
+`results/goods_s_f200w.png` is the original clean, unannotated 2,000 × 2,000
+grayscale reference, with pixel rows flipped for top-left browser coordinates.
+The frontend now displays the static `results/goods_s_color.png`: real JADES DR2
+F090W → blue, F200W → green, and F444W → red, registered to exactly the existing
+F200W cutout's WCS and pixel grid. The caption identifies these assigned colors.
+Generate this asset only when needed with `python -m starmap.color_image`; the
+website performs no image processing. Registration, source URLs, and display
+settings are recorded in `results/goods_s_color.md`. The grayscale images remain
+available for alignment checks, and all catalog JSON and marker coordinates are
+unchanged by color generation.
 
 `starmap.verify` checks every source row when the original catalog is cached,
 the bundled image checksum, all marker bounds, sky/pixel roundtrips, and parent
@@ -243,11 +294,15 @@ measurements = measure_pair(a, b)  # Independent of any downloading or file layo
 The results object contains `schema_version`, `cosmology`, `distance_convention`,
 `dataset`, `galaxies`, and `pairs`. Each measurement has a numeric `value` (or
 `null`) and `unit`; lengths have `convention: "comoving"`. Galaxy metadata carries
-quality and uncertainty separately. The exported `results/markers.json` uses
-zero-based pixel centers with a bottom-left origin. A future frontend should use
-`y_top = height - 1 - y`, then scale both coordinates for resizing. The annotated
+quality and uncertainty separately. Schema 1.1 also adds `distance_from_us` to
+**every** galaxy record, independently of the three selected test pairs, with
+`value`, `unit: "ly"`, and `convention: "comoving"`; unavailable distances stay
+`null`. The exported `results/markers.json` uses
+zero-based pixel centers with a bottom-left origin. The frontend uses
+`y_top = height - 1 - y` and places both the image and rings in one SVG viewBox,
+so they resize together. The annotated
 PNG has plot margins and axes: its full canvas dimensions must not be treated as
-the raw FITS image dimensions. Export or display the raw image area for a UI.
+the raw FITS image dimensions. The UI uses the clean pixel-only PNG instead.
 
 ## Data attribution
 
