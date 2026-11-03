@@ -6,6 +6,8 @@ from pathlib import Path
 
 from .data import load_sample, write_json
 from .output import build_results, terminal_summary
+from .calculations import measure_pair
+from .selection import select_pairs
 
 
 def main(argv=None):
@@ -18,13 +20,14 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         document, galaxies = load_sample(args.sample)
-        pairs = args.pair or json.loads(args.pairs.read_text(encoding="utf-8"))["pairs"]
-        results = build_results(document, galaxies, pairs)
+        results = build_results(document, galaxies, args.pair)
+        display_pairs = args.pair or json.loads(args.pairs.read_text(encoding="utf-8"))["pairs"]
+        display = {**results, "pairs": [measure_pair(a, b) for a, b in select_pairs(galaxies, display_pairs)]}
         write_json(args.output, results)
     except (OSError, ValueError, TypeError, KeyError) as exc:
         parser.exit(2, f"starmap: {exc}\n")
-    print(terminal_summary(results))
-    print(f"\nJSON: {args.output}")
+    print(terminal_summary(display))
+    print(f"\nJSON: {args.output} ({len(results['pairs'])} pairs exported)")
 
 
 if __name__ == "__main__":

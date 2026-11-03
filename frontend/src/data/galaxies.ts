@@ -19,7 +19,23 @@ export type GalaxyRecord = {
   redshift_quality_meaning: string;
   redshift_uncertainty: number | null;
   distance_from_us: Distance;
+  apparent_size_arcsec?: number | null;
+  apparent_size_measurement?: string | null;
 };
+
+export type PairMeasurement = {
+  galaxy_a_id: string;
+  galaxy_b_id: string;
+  status: string;
+  angular_separation: { value: number | null; unit: string };
+  distance_from_us_a: Distance;
+  distance_from_us_b: Distance;
+  estimated_3d_separation: Distance;
+};
+
+export function pairKey(a: string, b: string): string {
+  return JSON.stringify([a, b].sort());
+}
 
 export type MarkerExport = {
   shape_yx: number[];
@@ -39,6 +55,7 @@ export type MeasurementExport = {
     catalog_version: string;
   };
   galaxies: GalaxyRecord[];
+  pairs: PairMeasurement[];
 };
 
 export type SelectableGalaxy = GalaxyRecord & {
@@ -53,6 +70,7 @@ export type GalaxyField = {
   cosmology: string;
   dataset: MeasurementExport["dataset"];
   galaxies: SelectableGalaxy[];
+  comparisons: Map<string, PairMeasurement>;
 };
 
 export function joinGalaxyData(
@@ -116,13 +134,49 @@ export function joinGalaxyData(
     });
   }
   const dataset = measurements.dataset;
+  const comparisons = new Map<string, PairMeasurement>();
+  for (const pair of measurements.pairs) {
+    if (
+      pair.galaxy_a_id === pair.galaxy_b_id ||
+      !byId.has(pair.galaxy_a_id) ||
+      !byId.has(pair.galaxy_b_id)
+    ) {
+      throw new Error("A comparison has invalid galaxy IDs.");
+    }
+    const key = pairKey(pair.galaxy_a_id, pair.galaxy_b_id);
+    if (comparisons.has(key)) throw new Error("Duplicate galaxy comparison.");
+    comparisons.set(key, pair);
+  }
+  if (comparisons.size !== (byId.size * (byId.size - 1)) / 2) {
+    throw new Error(
+      "The catalog needs all galaxy pair exports. Regenerate the backend measurements.",
+    );
+  }
   return {
     width,
     height,
     dataset,
     galaxies,
+    comparisons,
     cosmology: measurements.cosmology.name,
     label: `${dataset.field} · ${dataset.filter} image (${dataset.image_release}) · galaxy catalog (${dataset.catalog_release}).`,
+  };
+}
+
+export function getComparison(
+  field: GalaxyField,
+  a: string,
+  b: string,
+): PairMeasurement {
+  const pair = field.comparisons.get(pairKey(a, b));
+  if (!pair) throw new Error("This pair is not in the exported measurements.");
+  if (pair.galaxy_a_id === a) return pair;
+  return {
+    ...pair,
+    galaxy_a_id: a,
+    galaxy_b_id: b,
+    distance_from_us_a: pair.distance_from_us_b,
+    distance_from_us_b: pair.distance_from_us_a,
   };
 }
 

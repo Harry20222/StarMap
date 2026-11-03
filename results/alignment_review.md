@@ -79,3 +79,42 @@ verification JSON files are byte-for-byte unchanged, as are the reference FITS,
 grayscale PNG, data adapter, selection state, popup implementation, styles, and
 distance calculations. Only the displayed map image and its caption/title changed
 in the frontend. Full image provenance is in `goods_s_color.md`.
+
+## Frontend Prototype 2
+
+Reviewed on 2026-11-03 (America/New_York). The cutout, color image, grayscale
+image, WCS, and original marker centers are unchanged. Selection now includes
+all 43 unique eligible quality-A galaxies in this image across the GOODS-S
+survey tiers. All 43 have a spatially matched DR2 SIZE.F200W_RHALF measurement:
+the documented circularized half-light radius in arcseconds. The matched size
+catalog ID and angular match residual are retained separately from the
+spectroscopic ID. Size provenance and the documentation link are in the exports.
+
+The original 15 galaxies have all 105 unique pairs in
+`prototype1_measurements.json`; the expanded export has all 903 pairs. Both use
+the same Astropy/Planck18 implementation. A development fixture exercises the
+same comparison UI with the original 15 records before the expanded sample.
+
+The saved `frontend_prototype2_desktop.jpg` and
+`frontend_prototype2_mobile.jpg` show A = goods-s-mediumjwst1180:208134 and
+B = goods-s-deephst:10008071, outside the original three regression pairs.
+Desktop pointer dragging and mobile touch selection return identical exported
+values: 0.007933538626105657 degrees, 16548932382.537024 ly to A,
+18347141831.812336 ly to B, and 1798211067.9387193 ly in estimated 3D comoving
+separation. An independent Simpson integration / unit-vector / Cartesian
+cross-check agrees to better than 1e-12 relative difference. Display rounding
+does not imply scientific precision or propagated uncertainties.
+
+At 1440 pixels viewport width the map shows 39 rings; at 390 it shows 28, and
+at 320 it shows 26. Hidden records and all their pairs remain in the dataset.
+The actual SVG width determines collision clearance, including selected
+outlines and a small gap. Quality takes priority, then larger comparable
+apparent size, then galaxy ID. Browser checks verify every visible center
+against its JSON pixel position and every pair of rings for non-overlap at
+1440, 768, 390, and 320 pixels, including sources near the image edges. Visible
+rings remain centered on the same objects when the background is switched.
+
+Checks also cover Inspect mode, reverse-order comparisons, keyboard selection,
+empty-sky/self-release cancellation, and clearing a pair when resizing hides an
+endpoint. Definitions respond to hover, keyboard focus, and mobile taps. All 39
+Python tests, the desktop/mobile browser checks, and the production build pass.

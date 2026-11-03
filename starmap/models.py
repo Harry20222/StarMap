@@ -26,13 +26,18 @@ class Galaxy:
     tier: str | None = None
     nircam_id: int | None = None
     catalog_row_index: int | None = None
+    apparent_size_arcsec: float | None = None
+    apparent_size_measurement: str | None = None
+    size_catalog_id: int | None = None
+    size_match_separation_arcsec: float | None = None
 
     def __post_init__(self):
         if not isinstance(self.galaxy_id, str) or not self.galaxy_id.strip():
             raise ValueError("galaxy_id must be a nonempty string")
         if self.redshift_quality is not None and not isinstance(self.redshift_quality, str):
             raise ValueError("redshift_quality must be a string or None")
-        for name in ("ra_deg", "dec_deg", "redshift", "redshift_uncertainty"):
+        for name in ("ra_deg", "dec_deg", "redshift", "redshift_uncertainty",
+                     "apparent_size_arcsec", "size_match_separation_arcsec"):
             value = getattr(self, name)
             if value is not None and (
                 isinstance(value, bool)
@@ -48,6 +53,8 @@ class Galaxy:
             raise ValueError("redshift must be nonnegative or None")
         if self.redshift_uncertainty is not None and self.redshift_uncertainty < 0:
             raise ValueError("redshift_uncertainty must be nonnegative or None")
+        if self.apparent_size_arcsec is not None and self.apparent_size_arcsec <= 0:
+            raise ValueError("apparent_size_arcsec must be positive or None")
 
     @property
     def has_coordinates(self):

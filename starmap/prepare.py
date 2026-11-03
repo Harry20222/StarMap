@@ -14,30 +14,25 @@ from astropy.wcs import WCS
 from .data import (CATALOG_SHA256, CATALOG_URL, IMAGE_URL, README_URL, download_cached,
                    load_catalog, sha256, write_json)
 from .models import QUALITY_MEANINGS
+from .sizes import SIZE_URL, SIZE_DOCUMENTATION_URL, SIZE_MEASUREMENT, load_sizes, attach_sizes
 
 # Fixed sky region; selection is independent of computed pair distances.
 CENTER_RA_DEG = 53.160622050813075
 CENTER_DEC_DEG = -27.771611286298103
 CUTOUT_PIXELS = 2000
-SAMPLE_SIZE = 15
 
-
-def select_sample(galaxies):
-    center = SkyCoord(CENTER_RA_DEG, CENTER_DEC_DEG, unit="deg")
-    # One tier avoids repeat observations across survey tiers. A source is
-    # deduplicated by NIRCam ID, then the closest 15 are selected reproducibly.
-    candidates = sorted((g for g in galaxies if g.tier == "goods-s-deephst"),
-                        key=lambda g: (g.nirspec_id, g.catalog_row_index))
+def select_cutout_galaxies(galaxies, wcs, shape, preferred_ids=()):
+    """All eligible sources in this image; deduplicate repeated spectroscopy."""
+    preferred = set(preferred_ids)
+    candidates = sorted(galaxies, key=lambda g: (g.galaxy_id not in preferred, g.galaxy_id))
     unique = {}
-    for g in candidates:
-        unique.setdefault(g.nircam_id, g)
-    ordered = sorted(unique.values(), key=lambda g: (
-        center.separation(SkyCoord(g.ra_deg, g.dec_deg, unit="deg")).deg,
-        g.galaxy_id,
-    ))
-    if len(ordered) < SAMPLE_SIZE:
-        raise ValueError("Catalog does not contain enough eligible galaxies")
-    return sorted(ordered[:SAMPLE_SIZE], key=lambda g: g.nirspec_id)
+    for galaxy in candidates:
+        if galaxy.redshift_quality != "A" or not galaxy.has_coordinates or not galaxy.has_reliable_redshift:
+            continue
+        x, y = wcs.world_to_pixel_values(galaxy.ra_deg, galaxy.dec_deg)
+        if -0.5 <= x < shape[1] - 0.5 and -0.5 <= y < shape[0] - 0.5:
+            unique.setdefault(galaxy.nircam_id, galaxy)
+    return sorted(unique.values(), key=lambda g: g.galaxy_id)
 
 
 def fetch_cutout(destination: Path, source_header: Path) -> dict:
@@ -89,7 +84,6 @@ def main(argv=None):
     if sha256(catalog) != CATALOG_SHA256:
         raise ValueError("Catalog checksum differs from the pinned DR3 product; inspect before updating the sample")
     download_cached(README_URL, cache / "source_readme.txt")
-    galaxies = select_sample(load_catalog(catalog))
     image = root / "goods_s_f200w_cutout.fits"
     geometry_file = cache / "cutout_geometry.json"
     if image.exists() and geometry_file.exists():
@@ -103,6 +97,13 @@ def main(argv=None):
     else:
         geometry = fetch_cutout(image, root / "parent_sci_header.txt")
         write_json(geometry_file, geometry)
+    old_document = json.loads((root / "sample.json").read_text(encoding="utf-8")) if (root / "sample.json").exists() else {"galaxies": []}
+    preferred_ids = [g["galaxy_id"] for g in old_document["galaxies"]]
+    with fits.open(image) as hdul:
+        galaxies = select_cutout_galaxies(load_catalog(catalog),
+            WCS(hdul[0].header, fix=False).celestial, hdul[0].data.shape, preferred_ids)
+    size_cache = cache / "photometry_sizes.fits"
+    galaxies = attach_sizes(galaxies, load_sizes(size_cache))
     dataset = {
         "field": "GOODS-S", "catalog_release": "JADES DR3", "catalog_version": "v1.1",
         "catalog_url": CATALOG_URL, "catalog_hdu": 1, "catalog_sha256": sha256(catalog),
@@ -115,7 +116,12 @@ def main(argv=None):
         "redshift_column": "z_Spec", "redshift_quality_column": "z_Spec_flag",
         "redshift_uncertainty_column": None,
         "redshift_uncertainty_note": "No published z_Spec uncertainty column in this table; line-flux errors are not redshift errors.",
-        "selection": "15 nearest unique NIRCam-matched goods-s-deephst targets to fixed center, flag A, z>0, DR_flag=False; sorted by NIRSpec_ID.",
+        "selection": "All NIRCam-matched flag-A sources inside the existing cutout, z>0, DR_flag=False, deduplicated by NIRCam_ID across all tiers. Existing canonical IDs retained; otherwise lexicographic TIER:NIRSpec_ID tie-break.",
+        "apparent_size": {"catalog_url": SIZE_URL, "release": "JADES DR2 v2.0", "hdu": "SIZE",
+            "column": "F200W_RHALF", "unit": "arcsec", "meaning": SIZE_MEASUREMENT,
+            "documentation_url": SIZE_DOCUMENTATION_URL, "documentation_page": 5,
+            "match_radius_arcsec": 0.2, "cached_table_sha256": sha256(size_cache),
+            "match_note": "ID plus sky match within 0.2 arcsec; nearest sky match if IDs changed through re-segmentation. Unavailable sizes remain null."},
         "id_convention": "TIER:NIRSpec_ID; NIRCam_ID is retained separately, not used interchangeably.",
         "quality_flag_meanings": QUALITY_MEANINGS,
         "quality_documentation_url": README_URL,

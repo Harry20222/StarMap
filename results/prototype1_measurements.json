@@ -1,0 +1,3411 @@
+{
+  "schema_version": "1.2",
+  "cosmology": {
+    "name": "Planck18",
+    "class": "FlatLambdaCDM",
+    "H0": {
+      "value": 67.66,
+      "unit": "km / (Mpc s)"
+    },
+    "Om0": 0.30966,
+    "Ode0": 0.6888463055445441,
+    "Ob0": 0.04897,
+    "Ok0": 0.0,
+    "Tcmb0_K": 2.7255,
+    "Neff": 3.046,
+    "m_nu_eV": [
+      0.0,
+      0.0,
+      0.06
+    ],
+    "astropy_version": "8.0.2"
+  },
+  "distance_convention": "comoving; scale factor a0 = 1; light-years (ly)",
+  "interpretation": "3D separations are model-based estimates from redshift-space positions, not light-travel times or separations at either emission epoch. Peculiar velocities, redshift errors, and cosmological parameter errors are not propagated. Decimal digits do not indicate physical accuracy.",
+  "reliable_redshift_flags": [
+    "A",
+    "B"
+  ],
+  "dataset": {
+    "field": "GOODS-S",
+    "catalog_release": "JADES DR3",
+    "catalog_version": "v1.1",
+    "catalog_url": "https://archive.stsci.edu/hlsps/jades/dr3/goods-s/catalogs/hlsp_jades_jwst_nirspec_goods-s_prism-line-fluxes_v1.1_catalog.fits",
+    "catalog_hdu": 1,
+    "catalog_sha256": "7b532b33159b3ceeebe2eadc378c6cfe2d717723e532c5aecdf34a845b6441eb",
+    "image_release": "JADES DR2",
+    "image_version": "v2.0",
+    "image_url": "https://archive.stsci.edu/hlsps/jades/dr2/goods-s/images/hlsp_jades_jwst_nircam_goods-s-deep_f200w_v2.0_drz.fits",
+    "instrument": "JWST/NIRCam",
+    "filter": "F200W",
+    "image_file": "goods_s_f200w_cutout.fits",
+    "cutout_sha256": "b8da2263320ed3e763fda10f851fcccea89434bc530a64f6650c775f9ef37eb7",
+    "image_geometry": {
+      "origin_in_parent_pixels_zero_based": [
+        6905,
+        19816
+      ],
+      "shape_yx": [
+        2000,
+        2000
+      ],
+      "parent_shape_yx": [
+        27700,
+        25000
+      ],
+      "source_extension": "SCI",
+      "resized": false,
+      "pixel_convention": "zero-based pixel centers; x right, y up in origin=lower plots"
+    },
+    "image_center_icrs_deg": [
+      53.160622050813075,
+      -27.771611286298103
+    ],
+    "coordinate_columns": [
+      "RA_NIRCam",
+      "Dec_NIRCam"
+    ],
+    "redshift_column": "z_Spec",
+    "redshift_quality_column": "z_Spec_flag",
+    "redshift_uncertainty_column": null,
+    "redshift_uncertainty_note": "No published z_Spec uncertainty column in this table; line-flux errors are not redshift errors.",
+    "selection": "15 nearest unique NIRCam-matched goods-s-deephst targets to fixed center, flag A, z>0, DR_flag=False; sorted by NIRSpec_ID.",
+    "id_convention": "TIER:NIRSpec_ID; NIRCam_ID is retained separately, not used interchangeably.",
+    "quality_flag_meanings": {
+      "A": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "B": "Highly robust: emission lines with S/N > 5 in Prism/Clear spectra.",
+      "C": "Secure: visually identified spectral breaks and/or low-S/N emission lines.",
+      "D": "Tentative redshift.",
+      "E": "No redshift."
+    },
+    "quality_documentation_url": "https://archive.stsci.edu/hlsps/jades/hlsp_jades_readme.txt",
+    "release_note": "Fixed archival teaching dataset; DR4 supersedes most DR3 spectroscopy. No claim of using the latest redshifts.",
+    "references": [
+      "https://archive.stsci.edu/hlsp/jades",
+      "https://archive.stsci.edu/hlsps/jades/hlsp_jades_readme.txt",
+      "https://doi.org/10.17909/8tdj-8n28",
+      "https://arxiv.org/abs/2404.06531",
+      "https://arxiv.org/abs/2310.12340"
+    ],
+    "license": "CC BY 4.0 (JADES HLSP products)"
+  },
+  "galaxies": [
+    {
+      "galaxy_id": "goods-s-deephst:16996",
+      "ra_deg": 53.157853060257665,
+      "dec_deg": -27.7776214440572,
+      "redshift": 2.7754479844376094,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 16996,
+      "tier": "goods-s-deephst",
+      "nircam_id": 127922,
+      "catalog_row_index": 928,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:17160",
+      "ra_deg": 53.16241447854139,
+      "dec_deg": -27.77716254398949,
+      "redshift": 1.8502956189914272,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 17160,
+      "tier": "goods-s-deephst",
+      "nircam_id": 128275,
+      "catalog_row_index": 947,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:17566",
+      "ra_deg": 53.15610054974031,
+      "dec_deg": -27.775883129930218,
+      "redshift": 6.101533511321096,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 17566,
+      "tier": "goods-s-deephst",
+      "nircam_id": 209276,
+      "catalog_row_index": 983,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:18970",
+      "ra_deg": 53.156508191577295,
+      "dec_deg": -27.772253680464388,
+      "redshift": 3.7245882870436464,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 18970,
+      "tier": "goods-s-deephst",
+      "nircam_id": 210435,
+      "catalog_row_index": 993,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:18976",
+      "ra_deg": 53.16660104371029,
+      "dec_deg": -27.772403330225913,
+      "redshift": 6.327051824236397,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 18976,
+      "tier": "goods-s-deephst",
+      "nircam_id": 131971,
+      "catalog_row_index": 994,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:19342",
+      "ra_deg": 53.160622050813075,
+      "dec_deg": -27.771611286298103,
+      "redshift": 5.974287172942812,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 19342,
+      "tier": "goods-s-deephst",
+      "nircam_id": 132780,
+      "catalog_row_index": 996,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:19431",
+      "ra_deg": 53.16292117472793,
+      "dec_deg": -27.771411399640733,
+      "redshift": 3.3202491902613582,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 19431,
+      "tier": "goods-s-deephst",
+      "nircam_id": 210857,
+      "catalog_row_index": 997,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:19519",
+      "ra_deg": 53.16608703568162,
+      "dec_deg": -27.771263601193905,
+      "redshift": 3.604509731583053,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 19519,
+      "tier": "goods-s-deephst",
+      "nircam_id": 133114,
+      "catalog_row_index": 999,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:19607",
+      "ra_deg": 53.16003127901048,
+      "dec_deg": -27.77108680355394,
+      "redshift": 1.8474041908000198,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 19607,
+      "tier": "goods-s-deephst",
+      "nircam_id": 210970,
+      "catalog_row_index": 1001,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:20313",
+      "ra_deg": 53.15831557219568,
+      "dec_deg": -27.770071758578883,
+      "redshift": 2.844558282847051,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 20313,
+      "tier": "goods-s-deephst",
+      "nircam_id": 134521,
+      "catalog_row_index": 1003,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:21598",
+      "ra_deg": 53.15607620668576,
+      "dec_deg": -27.767656243433933,
+      "redshift": 1.7153189713682861,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 21598,
+      "tier": "goods-s-deephst",
+      "nircam_id": 137160,
+      "catalog_row_index": 1008,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:21842",
+      "ra_deg": 53.156826655326526,
+      "dec_deg": -27.767161319235875,
+      "redshift": 7.980506972822209,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 21842,
+      "tier": "goods-s-deephst",
+      "nircam_id": 137667,
+      "catalog_row_index": 1009,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:10005447",
+      "ra_deg": 53.16288222015503,
+      "dec_deg": -27.769289907677265,
+      "redshift": 6.622576403018016,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 10005447,
+      "tier": "goods-s-deephst",
+      "nircam_id": 135407,
+      "catalog_row_index": 2243,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:10008071",
+      "ra_deg": 53.154494941945345,
+      "dec_deg": -27.771498290483226,
+      "redshift": 2.22710272215573,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 10008071,
+      "tier": "goods-s-deephst",
+      "nircam_id": 210730,
+      "catalog_row_index": 2267,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    },
+    {
+      "galaxy_id": "goods-s-deephst:10013682",
+      "ra_deg": 53.16746035740885,
+      "dec_deg": -27.77200718325915,
+      "redshift": 7.275207715866792,
+      "redshift_quality": "A",
+      "redshift_uncertainty": null,
+      "nirspec_id": 10013682,
+      "tier": "goods-s-deephst",
+      "nircam_id": 334273,
+      "catalog_row_index": 2389,
+      "apparent_size_arcsec": null,
+      "apparent_size_measurement": null,
+      "size_catalog_id": null,
+      "size_match_separation_arcsec": null,
+      "coordinate_frame": "ICRS",
+      "redshift_quality_meaning": "Highly robust: emission lines with S/N > 5 in R~1000 grating spectra.",
+      "redshift_uncertainty_status": "not_published_in_selected_catalog",
+      "distance_status": "available",
+      "distance_from_us": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:17160",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004061789421498782,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 3898269028.941772,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:17566",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.002329377630080933,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 7150843425.914102,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:18970",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005498071880201733,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2785873708.9087253,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:18976",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.009334748221287617,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 7451288422.705603,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:19342",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006490326706551078,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6974962240.168001,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:19431",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0076598157641103275,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1708671668.8738775,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:19519",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.009669446869528964,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2480499013.5356116,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006812919961227037,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 3913148844.5080624,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0075607683549090265,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 236025126.26793346,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010088455318880786,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4615663427.155911,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010499475315966891,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 9297467809.707016,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.009445373892407101,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 7824726499.149727,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006805966053453096,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2120974033.9851284,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:16996",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010187087042734175,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20468114616.64534,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 8577644819.98635,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:17566",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005731023031170894,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11049112378.104725,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:18970",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.007169795959032089,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6684142183.968337,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:18976",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0060308642561426925,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11349556440.986076,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:19342",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0057733532207530445,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 10873230746.118334,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:19431",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005768591853863345,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 5606938437.3717,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:19519",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006734717305226874,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6378765539.032112,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00643124888154425,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 14995110.734838586,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.007964430322368715,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4134279105.104299,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.011037253137152425,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 717400320.7469136,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.011156571752456464,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 13195736228.366034,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.007883506853410322,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11722994682.368355,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.009010192856560231,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1777298140.5374703,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17160",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006819808595389895,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16569845806.320633,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 12475912808.072433,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:18970",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0036473267204159654,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4364970736.406803,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:18976",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.009921036901709836,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 300482517.70362705,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:19342",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005852644315925817,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 175904118.3685094,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:19431",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.007511050361968721,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 5442175032.773957,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:19519",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.009970706605655239,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4670349098.5900345,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0059245683061891034,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11063991813.854162,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006132949014640432,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6914834341.243907,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.008226914692100908,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11766506081.597715,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.008745441451388438,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2146627810.1050239,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.008914929650640089,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 673896169.322166,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004609231758233135,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 9271816322.25911,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:17566",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010772517378098156,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27618957977.22647,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1426810301.5595856,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:18976",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00893147111172666,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4665416173.327565,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:19342",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0036962321946254818,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4189089118.17943,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:19431",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00573644544969955,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1077206026.8485978,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:19519",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.008533097400748679,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 305395984.90016115,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0033285075617552158,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6699021251.608242,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.002705220722487224,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2549863639.6741757,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004613299030949136,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 7401535421.179465,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0051001515592987165,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6511594208.29742,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0063711829256825146,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 5038853378.446084,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0019348893779866372,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4906845756.711012,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18970",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00969369551425247,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 23253987538.94404,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 5791772471.236254,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:19342",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005349227842520666,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 476332691.70934516,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:19431",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.003403726314109467,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 5742618300.229586,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:19519",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.001227120559506328,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4970791117.527801,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005960218268498029,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11364435857.255026,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0076929442499510435,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 7215278633.912264,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010452752724270915,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 12066950352.663061,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010113242342257215,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1846186316.7608047,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004529975277729325,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 373444699.781765,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010749756230249794,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 9572261131.541985,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:18976",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0008573385455539623,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27919402021.503796,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1126356400.216862,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:19431",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.002044090874023833,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 5266292502.146131,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:19519",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004847975287030762,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4494465908.188244,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.000740487477227305,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 10888109959.306147,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0025563780102392693,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6738952314.319825,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0056410268028501504,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11590624242.832424,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0055749664662192765,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2322506650.9287415,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0030640142675252336,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 849765076.5374658,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005422519406636894,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 9095934756.217531,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19342",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0060635425161267315,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 27443076340.1274,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1602684786.1212313,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19431",
+      "galaxy_b_id": "goods-s-deephst:19519",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0028050950566358367,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 771827812.2442726,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19431",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0025775430364357015,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 5621817593.30255,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19431",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004289671287677679,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1472660675.624476,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19431",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.007126282793841569,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6324332062.281249,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19431",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006866113979722,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 7588798039.16427,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19431",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0021217719446696252,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6116056268.959543,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19431",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.007456148492302574,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 3829642979.3408656,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19431",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004060268481799547,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22176783911.525993,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6868974665.056802,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19519",
+      "galaxy_b_id": "goods-s-deephst:19607",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005361143319714632,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6393644809.353398,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19519",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006978867195571788,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2244488394.1383247,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19519",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.009564256472683674,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 7096159368.59087,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19519",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00916342286337979,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6816971674.076742,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19519",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.003454942220339679,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 5344229397.48246,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19519",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010259529416028606,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4601470568.650661,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19519",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.001424590515513597,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 22948610933.53816,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 6097147441.373385,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19607",
+      "galaxy_b_id": "goods-s-deephst:20313",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0018261764722763325,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4149157767.3828826,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19607",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004900583023938504,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 702515471.5348424,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19607",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0048424987821699276,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 13210615075.03053,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19607",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.003097134733231232,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11737873784.13466,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19607",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00491588369646638,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1792176071.3044744,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:19607",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.006637462897851641,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 16554966384.30598,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 12490792215.128521,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:20313",
+      "galaxy_b_id": "goods-s-deephst:21598",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0031242481408426163,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 4851671931.09313,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:20313",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.003194734043209168,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 9061457322.105835,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:20313",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004115643089571087,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 7588716199.555971,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:20313",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0036692250984657736,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2356982608.394401,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:20313",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00831970897290552,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 20704124109.728867,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 8341634991.418127,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:21598",
+      "galaxy_b_id": "goods-s-deephst:21842",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.000828183487639338,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 13913129050.447289,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:21598",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.0062398670854699285,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 12440388044.737215,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:21598",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004088880154397144,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 2494689849.485079,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:21598",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010972508957816832,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 15852452279.207872,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 13193306701.885147,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:21842",
+      "galaxy_b_id": "goods-s-deephst:10005447",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.005765520487248765,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 1472744111.0855126,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:21842",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.00480270701648357,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 11418439662.324518,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:21842",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.010583558755427241,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 29765581326.11222,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 719843475.5320843,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:10005447",
+      "galaxy_b_id": "goods-s-deephst:10008071",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.007742858759778386,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 9945698754.910805,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:10005447",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.004877784442230492,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 28292840110.141743,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 752922186.2850931,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    },
+    {
+      "galaxy_a_id": "goods-s-deephst:10008071",
+      "galaxy_b_id": "goods-s-deephst:10013682",
+      "status": "available",
+      "unknown_reasons": [],
+      "angular_separation": {
+        "value": 0.011483221262144851,
+        "unit": "deg"
+      },
+      "distance_from_us_a": {
+        "value": 18347141831.812336,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "distance_from_us_b": {
+        "value": 29045758341.11928,
+        "unit": "ly",
+        "convention": "comoving"
+      },
+      "estimated_3d_separation": {
+        "value": 10698617509.711596,
+        "unit": "ly",
+        "convention": "comoving",
+        "method": "flat-space law of cosines using both sky directions and radial distances",
+        "uncertainty": null,
+        "uncertainty_status": "not_propagated"
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 """Frontend-friendly output schema and human-readable terminal formatting."""
 
 import astropy
+from itertools import combinations
 import astropy.units as u
 from astropy.cosmology import Planck18
 
@@ -8,9 +9,11 @@ from .calculations import comoving_distance_ly, measure_pair
 from .selection import select_pairs
 
 
-def build_results(sample_document, galaxies, pairs):
+def build_results(sample_document, galaxies, pairs=None):
+    selected_pairs = (combinations(galaxies, 2) if pairs is None
+                      else select_pairs(galaxies, pairs))
     return {
-        "schema_version": "1.1",
+        "schema_version": "1.2",
         "cosmology": {
             "name": "Planck18", "class": type(Planck18).__name__,
             "H0": {"value": Planck18.H0.value, "unit": "km / (Mpc s)"},
@@ -35,7 +38,7 @@ def build_results(sample_document, galaxies, pairs):
             }}
             for g in galaxies
         ],
-        "pairs": [measure_pair(a, b) for a, b in select_pairs(galaxies, pairs)],
+        "pairs": [measure_pair(a, b) for a, b in selected_pairs],
     }
 
 

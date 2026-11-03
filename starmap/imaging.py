@@ -1,6 +1,7 @@
 """WCS marker projection and static scientific finding charts."""
 
 import argparse
+from math import ceil
 from pathlib import Path
 
 import matplotlib
@@ -65,14 +66,15 @@ def make_charts(sample_path: Path, output_dir: Path):
         ax.scatter(x, y, s=120, facecolors="none", edgecolors="#48e0ff", linewidths=0.9)
         ax.annotate(str(g.nirspec_id), (x, y), xytext=(8, 7), textcoords="offset points",
                     color="#48e0ff", fontsize=8)
-    ax.set_title("JADES GOODS-S | NIRCam F200W | DR2 v2.0\n15 DR3 flag-A galaxies; labels are NIRSpec IDs (tier: goods-s-deephst)")
+    ax.set_title(f"JADES GOODS-S | NIRCam F200W | DR2 v2.0\n{len(galaxies)} DR3 flag-A galaxies; labels are NIRSpec IDs (tiers in sample.json)")
     ax.set_xlabel("Right ascension (ICRS)")
     ax.set_ylabel("Declination (ICRS)")
     fig.tight_layout()
     fig.savefig(output_dir / "galaxy_map.png", dpi=160)
     plt.close(fig)
-    # Inspect all 15, including all pair members, in 3-arcsec native-pixel stamps.
-    fig, axes = plt.subplots(3, 5, figsize=(15, 9))
+    # Inspect every sample member in 3-arcsec native-pixel stamps.
+    rows = max(1, ceil(len(galaxies) / 5))
+    fig, axes = plt.subplots(rows, 5, figsize=(15, rows * 3), squeeze=False)
     for ax, g, marker in zip(axes.flat, galaxies, markers):
         x, y = marker["x"], marker["y"]
         xi, yi = int(round(x)), int(round(y))
@@ -86,6 +88,8 @@ def make_charts(sample_path: Path, output_dir: Path):
         ax.set_title(f"{g.nirspec_id} | z={g.redshift:.5f} | A", fontsize=10)
         ax.set_xticks([])
         ax.set_yticks([])
+    for ax in list(axes.flat)[len(galaxies):]:
+        ax.set_visible(False)
     fig.suptitle("WCS alignment check | 3 arcsec stamps | open rings at catalog positions", fontsize=14)
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     fig.savefig(output_dir / "alignment_stamps.png", dpi=140)

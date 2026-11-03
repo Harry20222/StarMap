@@ -87,7 +87,7 @@ def verify(sample_path: Path, pairs_path: Path):
                 and not bool(row["DR_flag"])
             )
             require(matches, f"Source row mismatch for {g.galaxy_id}")
-        catalog_check = "checksum and all 15 source rows match"
+        catalog_check = f"checksum and all {len(galaxies)} source rows match"
     pairs = json.loads(pairs_path.read_text(encoding="utf-8"))["pairs"]
     cross_checks = []
     for a, b in select_pairs(galaxies, pairs):

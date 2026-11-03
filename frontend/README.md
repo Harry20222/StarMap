@@ -1,8 +1,10 @@
-# Frontend Prototype 1: GOODS-S field explorer
+# Frontend Prototype 2: GOODS-S field explorer and comparison
 
 Select a ring on the real JADES GOODS-S three-filter color image to inspect one galaxy.
 The selectable set is derived from the backend exports, including galaxies
-outside the three backend example pairs. There are currently 15 quality-A objects.
+outside the three backend example pairs. There are currently 43 unique quality-A
+objects and 903 exported pairs. The visible set is filtered at the current
+display width to prevent overlapping circles; all 43 records remain in the data.
 The map opens in **Color** mode. Use the **Color / Black and white** buttons above
 the image to switch between the three-filter composite and the original F200W
 grayscale image. Switching updates the image caption and keeps the current galaxy
@@ -44,10 +46,14 @@ Opening index.html using file:// is not supported by browser module security.
    grid as the native 2,000 × 2,000 F200W reference crop, without axes or baked-in
    markers. `results/goods_s_f200w.png` and `results/galaxy_map.png` remain the
    original grayscale alignment references.
-3. `src/components/GalaxyPopup.tsx` displays the selected record and its
-   **distance_from_us** value. It never calculates a cosmological distance or
-   tries to recover individual distances from the three pair records.
-4. `src/App.tsx` owns the single selection and Escape/close behavior.
+3. `src/components/GalaxyPopup.tsx` displays one galaxy's **distance_from_us**
+   value. `ComparisonPanel.tsx` displays the four exported values for a pair.
+   The data adapter indexes all pairs by an unordered ID key and swaps the two
+   radial distances when the user reverses A/B. No distances are computed in JS.
+4. `src/App.tsx` owns Inspect/Compare mode, pending A, completed A/B, and close/
+   Escape behavior. `src/data/markerLayout.ts` handles viewport-dependent culling.
+   `src/components/InfoTip.tsx` contains the scientific glossary and accessible
+   hover/focus/tap tooltips.
    `src/styles.css` controls all appearance and responsive layouts.
 
 `distance_from_us` has a numeric value (or null), unit `ly`, and convention
@@ -77,13 +83,34 @@ The static color PNG is flipped for top-left display. The data adapter computes 
 begin at `-0.5`, so integer marker coordinates represent pixel centers without a
 half-pixel shift. The image and overlay resize as one coordinate system.
 
-Rings have no fill and a thin visible stroke. Invisible hit circles provide
+Rings have no fill and a thin visible stroke. A ResizeObserver recomputes their
+visibility whenever the actual image width changes. Priority is quality first,
+then larger **F200W_RHALF** (published DR2 circularized half-light radius in
+arcseconds), then full ID for ties or incomparable sizes. The comparison includes
+the largest possible selected outline plus a small gap. The greedy result is a
+maximal set respecting priority, not a claim of globally maximizing marker count.
+Hidden markers are omitted from the SVG but their full records and pairs remain
+in the imported JSON. The legend shows visible/total counts and hidden count.
+
+Invisible hit circles provide
 44-pixel touch areas where possible. Dense regions can have overlapping hit
 areas: a pointer event selects the nearest actual galaxy center rather than
 relying on paint order. Keyboard users can Tab to each ring and press Enter or
-Space. Only one galaxy is selected; amber rings mark it. Escape or Close dismisses
-the inspector and restores marker focus. On phones the inspector follows the
-map and scrolls into view, keeping the image unobstructed.
+Space. In **Inspect**, one galaxy opens its existing popup. In **Compare**, drag
+from one visible ring to another, or select A and B in sequence with click/tap/
+keyboard. Two distinct visible markers are required. Empty-sky releases, a drag
+back to the starting galaxy, or selecting A twice cancel the unfinished pair.
+Escape and Clear comparison reset it. Resizing clears a pending or completed
+pair if one of its endpoints becomes hidden. Amber rings and a line identify
+the comparison. The line is angular separation on the sky, while the exported
+3D separation also uses both radial comoving distances. On phones the completed
+result follows the map and scrolls into view; choosing A alone does not scroll
+the user away from the map.
+
+Information buttons follow scientific terms as small raised circled icons.
+They show plain-language definitions on hover, focus, or tap; outside clicks and
+Escape dismiss them. The tooltip is placed within the viewport. Escape closes
+an open definition before it clears the galaxy selection or comparison.
 
 The color asset is generated once, not at runtime. To regenerate it from the
 repository root, run `python -m starmap.color_image` with the project environment.
@@ -103,19 +130,30 @@ npx playwright install chromium
 npm test
 ```
 
-The suite clicks/taps all selectable galaxies in desktop and mobile contexts,
+The suite clicks/taps all currently visible galaxies in desktop and mobile contexts,
 checks that popup IDs, distances, coordinates, redshifts, and uncertainty status
 match the JSON exports, and verifies selection replacement, close, Escape,
 keyboard access, and restored focus. It checks every marker's position relative
 to the image at 1440, 768, 390, and 320 pixel viewport widths, including the
-actual browser transform and native PNG dimensions. Data-join checks shuffle
-records, change the quality-A count, and reject missing or duplicate IDs.
+actual browser transform and circle geometry. Tests compare the same non-original
+pair by desktop pointer drag and mobile taps against all four exact JSON values,
+check reverse order and cancellation, and verify tooltip hover/focus/tap behavior.
+Priority tests cover quality, apparent size, missing-size ID fallback, stable
+ordering, and the reason every hidden marker was suppressed.
+
+The archived original sample has all 105 pairs. A development-only test fixture
+at `tests/fixtures/prototype1.html` mounts this same App with those 15 galaxies;
+it is not part of the production build. The expanded default has all 903 pairs.
 
 Backend tests independently check per-galaxy distance exports, unknown distances,
 and native PNG dimensions and row orientation. The original WCS and calculation
 checks remain in `starmap.verify`. Visual reference artifacts are in `results/`.
-The saved `results/frontend_desktop.jpg` and `results/frontend_mobile.jpg` show
-the selected-galaxy inspector on desktop and mobile, respectively.
+The saved `results/frontend_prototype2_desktop.jpg` and
+`results/frontend_prototype2_mobile.jpg` show the same comparison on desktop and
+mobile. Earlier `frontend_desktop.jpg` and `frontend_mobile.jpg` preserve the
+Prototype 1 inspector previews.
 
-Comparing two selected galaxies, extra catalogs, redshift-error propagation,
-and an API service are later milestones.
+Vercel's two-service setup and optional read-only export API are documented in
+the root README. This browser app still imports the exports directly and has no
+runtime service calls or binding environment variables. Additional fields,
+redshift-error propagation, and a live calculation API remain later milestones.

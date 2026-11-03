@@ -2,9 +2,10 @@
 
 A Python backend and React/TypeScript field explorer for learning to match JWST
 images to galaxy catalogs and measure distances with Astropy's **Planck18** cosmology. The bundled
-sample contains **15 real JADES galaxies with flag-A spectroscopic redshifts** in
-a single GOODS-S NIRCam F200W cutout. Three fixed pairs produce terminal output
-and frontend-friendly JSON without network access.
+sample contains **43 deduplicated JADES galaxies with flag-A spectroscopic redshifts**
+inside the same GOODS-S cutout. All **903 unique pairs** are exported for the
+frontend; the original three regression pairs are still printed in the terminal.
+Calculations and the frontend run without a Python API server.
 
 ## Requirements and scope
 
@@ -21,10 +22,17 @@ The prototype implements the current Python milestone:
   calculations, and output; provide a CLI and cached source retrieval.
 - Verify source rows, image positions, and calculations; include meaningful tests.
 
-Frontend Prototype 1 lets you select any of the 15 quality-A galaxies on the
-GOODS-S image and inspect its estimated comoving distance, sky coordinates,
-redshift, quality, and published uncertainty status. Comparing two galaxies in
-the interface remains a later milestone.
+Frontend Prototype 2 provides **Inspect** and **Compare** modes. Inspect opens the
+existing single-galaxy popup. Compare lets you drag between two visible rings or
+select two in sequence by click, tap, or keyboard. The panel identifies A and B
+and displays angular separation, each galaxy's comoving distance from us, and
+estimated 3D comoving separation, all from the Python/Astropy Planck18 exports.
+Scientific terms have circled, superscript-style information buttons that work
+on hover, keyboard focus, and mobile tap.
+
+The original 15-galaxy dataset is retained as `data/prototype1_sample.json`, with
+all 105 pairs in `results/prototype1_measurements.json`. A browser fixture tests
+the same comparison UI against this original sample before the expanded data.
 
 ## Frontend: open the field explorer
 
@@ -45,11 +53,21 @@ in your editor and press **Run**. It starts the Node/Vite preview and opens your
 browser; stop the script to stop that preview. This launcher is optional and
 does not run a Python web server. `run_starmap.py` still runs the backend exports.
 
-Thin green rings identify selectable quality-A galaxies; the legend count comes
-from the joined JSON data. A selected galaxy gets a distinct amber outline.
+Thin green rings identify visible quality-A galaxies. Apparent F200W half-light
+radii from the documented DR2 photometric catalog rank equally reliable galaxies
+when rings would overlap. The layout is recomputed at the current display size,
+including room for selected outlines; hidden galaxies remain in the dataset.
+The legend reports visible and total counts (for example, about 39 on desktop
+and 28 on a 390-pixel phone viewport, out of 43 records). Counts can vary with width.
+A selected galaxy gets a distinct amber outline.
 Click another ring to update the inspector, or dismiss with its close button or
 Escape. Tab and Enter/Space also select markers. On small screens, the inspector
 appears below the image and scrolls into view without covering the other rings.
+In Compare mode the first ring selects A, and the second distinct visible ring
+selects B. Dragging to empty sky or back onto the starting ring cancels the
+unfinished line. A resize that hides a comparison endpoint clears the pair.
+The drawn line represents separation on the sky; the 3D estimate also uses both
+galaxies' radial comoving distances. Escape or Clear comparison resets the pair.
 
 To refresh data or imagery after backend changes, run these from the repo root:
 
@@ -65,6 +83,80 @@ The image, fonts, and catalog data are bundled locally. Use a static HTTP server
 to view the build rather than double-clicking its HTML file.
 
 See `frontend/README.md` for component structure, data flow, and browser tests.
+
+## Vercel deployment
+
+The root `vercel.json` proposes two services in one Vercel project. Confirm the
+service names and public exposure before deploying:
+
+- **frontend**, rooted at `frontend/`, builds with `npm ci` and `npm run build`,
+  and serves `dist/`. The catch-all public rewrite sends `/` and static asset
+  requests here.
+- **app**, rooted at the repository root, uses the Python WSGI entrypoint
+  `app:app`. Public `/api` and `/api/*` requests go here, preserving the original
+  path prefix. Its read-only routes are `/api/health`, `/api/markers.json`, and
+  `/api/measurements.json`; `/api` lists the exports. Unknown API routes return
+  JSON 404 responses, and writes return 405. This adapter serves the existing
+  export bytes; generating datasets remains a local/offline operation.
+  `python app.py` is the service's explicit development command; it listens on
+  the `PORT` injected by `vercel dev`. Production loads the WSGI callable.
+
+**No inter-service bindings are declared.** The React app imports the JSON files
+at build time and makes no runtime HTTP calls to Python; neither service calls
+the other. The local `127.0.0.1` addresses belong only to the development launcher
+and browser tests. Public MAST URLs identify observation sources. None is an
+internal service address to replace. A binding would belong on a future
+server-side caller, with its URL read at function runtime; do not introduce a
+`VITE_*` binding or set a binding URL manually. See Vercel's
+[service bindings documentation](https://vercel.com/docs/services/bindings).
+
+Keep the Vercel **project Root Directory at the repository root (`.`)** so the
+root services config and shared `results/` assets are available; the frontend
+service has its own root. Use Node.js 24 for the frontend. Python's supported
+runtime version is selected from the existing `pyproject.toml` constraints.
+No environment variables or secrets are required by the current services.
+
+To test both services and the public routing together from the repository root,
+use the current Vercel CLI:
+
+```powershell
+npx vercel@latest dev --local
+```
+
+`--local` is Vercel's unauthenticated local mode. With a linked project, use
+`npx vercel@latest dev` instead. The command reports the local URL. Verify `/`
+loads the map, both image modes work, and `/api/health`, `/api/markers.json`, and
+`/api/measurements.json` respond. `/api/missing` should return JSON 404 rather
+than the frontend page. The website continues to use the bundled exports, so
+commit regenerated JSON and rebuild when the data changes.
+
+On this Windows machine, Vercel CLI 65.11.0's native builder installer failed
+with `EPERM` creating symlinks. Its bundled JavaScript CLI successfully ran the
+combined preview. For the same issue, select that fallback for the current
+PowerShell session:
+
+```powershell
+$env:VERCEL_CLI_USE_NATIVE_BINARY = "0"
+npx vercel@latest dev --local
+```
+
+To undo the temporary choice, run
+`Remove-Item Env:VERCEL_CLI_USE_NATIVE_BINARY`. No Windows permission changes
+are needed for this workaround.
+
+Validation: `tests/test_web.py` checks WSGI conformance, exact export bytes,
+HEAD, method rejection, and prefixed routes. The production frontend build
+passes. Combined `vercel dev --local` checks returned 200 for `/`, `/api`,
+`/api/health`, and both exports, plus JSON 404 for `/api/missing`.
+
+After confirming names, routing, and bindings, import this repository into one
+Vercel project or deploy from its root with the CLI. The deployment config keeps
+build/runtime options inside each service and public rewrites at the top level,
+as required by [Vercel Services](https://vercel.com/docs/services). The Python
+function explicitly includes the two exports and excludes frontend/image/data
+files from its runtime bundle. `.vercelignore` also omits local environments,
+caches, test fixtures, and review screenshots from CLI uploads, while retaining
+both real map PNGs and the two current exports for the frontend build.
 
 ## Install and run
 
@@ -96,12 +188,12 @@ The native FITS cutout and parent WCS header are included for offline verificati
 After installing dependencies, open `run_starmap.py` in your editor, select the
 Python interpreter from `my_venv`, and press **Run**. No terminal command is
 needed. It prints the measurements for the three pairs in `data/pairs.json` and
-saves `results/measurements.json`. Data paths are resolved relative to the script,
+saves **all 903 pair results** in `results/measurements.json`. Data paths are resolved relative to the script,
 so the editor's working directory does not matter. Keep the rest of the project
 files alongside the launcher; it uses the existing modules and bundled data.
 
 ```powershell
-# Override the three default pairs with one pair; --pair can be repeated.
+# Export a custom pair to a separate file; --pair can be repeated.
 .\my_venv\Scripts\python.exe -m starmap --pair goods-s-deephst:17160 goods-s-deephst:19607 --output results\custom.json
 
 # Rebuild finding charts and perform independent numerical/WCS checks.
@@ -112,7 +204,10 @@ files alongside the launcher; it uses the existing modules and bundled data.
 .\my_venv\Scripts\python.exe -m starmap.prepare
 ```
 
-Edit `data/pairs.json` to change the default pair list. IDs use `TIER:NIRSpec_ID`;
+Edit `data/pairs.json` to change the terminal regression examples. The normal
+JSON export still contains every unique pair. `--pair` explicitly restricts an
+export, so use `--output results/custom.json` to preserve the full frontend data.
+IDs use `TIER:NIRSpec_ID`;
 all available IDs and metadata are in `data/sample.json`. An unknown ID produces
 a clear CLI error. The `--sample`, `--pairs`, and `--output` options accept custom
 paths. `python -m starmap --help` lists options.
@@ -137,10 +232,28 @@ the [DR3 paper](https://arxiv.org/abs/2404.06531), and the
 - Fixed center: RA 53.160622050813075°, Dec −27.771611286298103°.
   Crop indices in the parent `SCI` array are
   `SCI[19816:21816, 6905:8905]` (Python's zero-based, end-exclusive indexing).
-- Selection: `TIER == goods-s-deephst`, flag A, positive finite `z_Spec`, no
-  `DR_flag`, valid NIRCam match and coordinates. Deduplicate by NIRCam ID, choose
-  the 15 nearest to the fixed center, and sort by NIRSpec ID. The recipe is in
-  `starmap/prepare.py`; source row indices and all 15 full records are saved.
+- Selection: all tiers, flag A, positive finite `z_Spec`, no `DR_flag`, valid
+  NIRCam match and coordinates inside the existing image's pixel-center bounds.
+  There are 45 eligible observations and 43 unique NIRCam IDs. Deduplicate by
+  NIRCam ID, retain previously published prototype IDs, and otherwise choose the
+  lexicographically first `TIER:NIRSpec_ID`. The recipe is in `starmap/prepare.py`;
+  all 43 full records and source row indices are saved.
+
+Apparent sizes use `SIZE.F200W_RHALF`, the **circularized half-light radius in
+arcseconds**, from the [DR2 v2.0 photometric catalog](https://archive.stsci.edu/hlsps/jades/dr2/goods-s/catalogs/hlsp_jades_jwst_nircam_goods-s-deep_photometry_v2.0_catalog.fits).
+The [extension documentation, page 5](https://archive.stsci.edu/hlsps/jades/hlsp_jades_jwst_nircam_goods-s-deep_photometry_v2.0_catalog-ext-readme.pdf)
+defines the measurement. Check ID matches on the sky within 0.2 arcsec; if
+re-segmentation changed an ID, use the nearest spatial match within that limit
+and retain the size catalog's ID separately. All 43 sources currently have
+positive comparable radii. Missing or invalid sizes remain null; they are not
+estimated from brightness. Source URLs, matches, metric names, and cache hash are
+recorded in the exports. `starmap/sizes.py` handles this optional preparation step.
+
+Marker visibility prioritizes redshift quality first, then the larger comparable
+apparent radius. Equal or incomparable sizes use the full galaxy ID as a stable
+tie-breaker. A deterministic greedy pass retains a maximal non-overlapping set;
+it preserves the larger-priority object even when several smaller neighbors
+could otherwise fit. Marker ring diameters are display aids, not galaxy sizes.
 
 The catalog already supplies NIRCam matches within 0.2 arcsec. Compatibility is
 checked spatially against the DR2 GOODS-S image, rather than by assuming matching
@@ -211,7 +324,7 @@ individual radial distances remain available when possible. Malformed numbers,
 nonfinite values, negative redshifts, RA outside [0,360), and Dec outside [-90,90]
 raise `ValueError`; the catalog loader filters invalid/sentinel/masked rows.
 
-## Three reproducible pairs
+## Three original regression pairs
 
 Every ID below has tier `goods-s-deephst` and quality A. These are illustrative
 comparisons, not claims of physical association. Terminal values are rounded
@@ -239,7 +352,7 @@ for display; the JSON retains the calculated floating-point values.
 
 ## Image and calculation verification
 
-`results/galaxy_map.png` labels all 15 positions. `results/alignment_stamps.png`
+`results/galaxy_map.png` labels all 43 positions. `results/alignment_stamps.png`
 shows 3-arcsec stamps with open rings, preserving source visibility. Visual
 inspection is recorded in `results/alignment_review.md`; some targets are faint
 in this single filter. Dark masked regions in the mosaic are not sky structures.
@@ -303,6 +416,12 @@ zero-based pixel centers with a bottom-left origin. The frontend uses
 so they resize together. The annotated
 PNG has plot margins and axes: its full canvas dimensions must not be treated as
 the raw FITS image dimensions. The UI uses the clean pixel-only PNG instead.
+
+Schema 1.2 additionally records the optional apparent-size fields and exports
+every unique pair by default: n(n−1)/2 results for n records. There are 105 for
+the archived initial sample and 903 for the expanded sample. The frontend joins
+records by full ID and looks up Python-calculated pairs, swapping A/B radial
+distances when the user chooses the reverse order; it does not recompute cosmology.
 
 ## Data attribution
 

@@ -16,6 +16,8 @@ from starmap.calculations import comoving_distance_ly
 from starmap.output import build_results
 from starmap.selection import select_pairs
 from starmap.verify import verify
+from starmap.prepare import select_cutout_galaxies
+from starmap.sizes import attach_sizes, SIZE_MEASUREMENT
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -63,13 +65,14 @@ def test_catalog_rejects_masked_invalid_and_unreliable_records(tmp_path):
     assert [g.nirspec_id for g in galaxies] == [0]
 
 
-def test_offline_cli_outputs_three_pairs(tmp_path, capsys):
+def test_offline_cli_exports_all_pairs_and_prints_examples(tmp_path, capsys):
     output = tmp_path / "result.json"
     main(["--sample", str(ROOT / "data/sample.json"), "--pairs", str(ROOT / "data/pairs.json"),
           "--output", str(output)])
     result = json.loads(output.read_text())
-    assert len(result["pairs"]) == 3
-    assert len(result["galaxies"]) == 15
+    count = len(result["galaxies"])
+    assert count == 43
+    assert len(result["pairs"]) == count * (count - 1) // 2
     assert result["cosmology"]["name"] == "Planck18"
     assert all(p["status"] == "available" for p in result["pairs"])
     assert all(g["redshift_uncertainty"] is None for g in result["galaxies"])
@@ -116,5 +119,47 @@ def test_cli_pair_override_and_invalid_id(tmp_path):
 def test_pinned_dataset_geometry_and_calculations():
     result = verify(ROOT / "data/sample.json", ROOT / "data/pairs.json")
     assert result["status"] == "passed"
-    assert result["markers_inside_image"] == 15
+    assert result["markers_inside_image"] == 43
     assert len(result["cross_checks"]) == 3
+
+
+def test_initial_fifteen_have_all_105_unique_pairs():
+    document, galaxies = load_sample(ROOT / "data/prototype1_sample.json")
+    result = build_results(document, galaxies)
+    assert len(galaxies) == 15 and len(result["pairs"]) == 105
+    keys = {frozenset((p["galaxy_a_id"], p["galaxy_b_id"])) for p in result["pairs"]}
+    assert len(keys) == 105 and all(len(key) == 2 for key in keys)
+
+
+def test_expansion_contains_every_eligible_unique_source_in_cutout():
+    if not (ROOT / "data/cache/catalog.fits").exists():
+        pytest.skip("Optional original catalog cache is not present")
+    document, galaxies = load_sample(ROOT / "data/sample.json")
+    original, old_galaxies = load_sample(ROOT / "data/prototype1_sample.json")
+    from astropy.io import fits
+    with fits.open(ROOT / "data/goods_s_f200w_cutout.fits") as h:
+        wcs = WCS(h[0].header, fix=False).celestial
+        expected = select_cutout_galaxies(load_catalog(ROOT / "data/cache/catalog.fits"), wcs, h[0].data.shape,
+            [g.galaxy_id for g in old_galaxies])
+    assert len(galaxies) == 43
+    assert {g.galaxy_id for g in galaxies} == {g.galaxy_id for g in expected}
+    assert len({g.nircam_id for g in galaxies}) == len(galaxies)
+    assert {g.galaxy_id for g in old_galaxies} <= {g.galaxy_id for g in galaxies}
+    assert all(g.redshift_quality == "A" for g in galaxies)
+    assert all(g.apparent_size_arcsec > 0 and g.apparent_size_measurement == SIZE_MEASUREMENT for g in galaxies)
+    assert all(g.size_match_separation_arcsec <= 0.2 for g in galaxies)
+    assert document["dataset"]["apparent_size"]["unit"] == "arcsec"
+    assert document["dataset"]["cutout_sha256"] == original["dataset"]["cutout_sha256"]
+
+
+def test_size_matching_checks_sky_position_and_keeps_missing_size_unknown():
+    table = Table({"ID": [10, 20], "RA": [10., 53.16], "DEC": [0., -27.77], "F200W_RHALF": [0.1, 0.4]})
+    g = Galaxy("match", 53.16, -27.77, 2., "A", nircam_id=10)
+    matched = attach_sizes([g], table)[0]
+    assert matched.size_catalog_id == 20  # Same input ID was at the wrong sky position.
+    assert matched.apparent_size_arcsec == 0.4
+    assert matched.apparent_size_measurement == SIZE_MEASUREMENT
+    absent = attach_sizes([replace(g, ra_deg=100.)], table)[0]
+    assert absent.apparent_size_arcsec is None and absent.size_catalog_id is None
+    table['F200W_RHALF'][1] = -1
+    assert attach_sizes([g], table)[0].apparent_size_arcsec is None

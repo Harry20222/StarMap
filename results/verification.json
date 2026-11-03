@@ -1,9 +1,9 @@
 {
   "status": "passed",
-  "catalog_check": "checksum and all 15 source rows match",
+  "catalog_check": "checksum and all 43 source rows match",
   "image_sha256_matches": true,
-  "markers_inside_image": 15,
-  "max_parent_minus_crop_residual_pixels": 6.072115378255404e-08,
+  "markers_inside_image": 43,
+  "max_parent_minus_crop_residual_pixels": 6.100059161578433e-08,
   "max_wcs_roundtrip_residual_arcsec": 7.29835167024478e-11,
   "independent_method": "8192-interval Simpson integration of Planck18 1/E(z), vector angular separation, Cartesian position subtraction",
   "relative_tolerance": 1e-08,

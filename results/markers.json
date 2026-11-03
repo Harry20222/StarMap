@@ -9,6 +9,34 @@
   "display_origin": "lower",
   "markers": [
     {
+      "galaxy_id": "goods-s-deephst:10005447",
+      "x": 759.828335476247,
+      "y": 1279.026398405812,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.536494937775769e-11
+    },
+    {
+      "galaxy_id": "goods-s-deephst:10008071",
+      "x": 1650.611949261579,
+      "y": 1014.2339724380477,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 0.0
+    },
+    {
+      "galaxy_id": "goods-s-deephst:10013682",
+      "x": 273.75625363598647,
+      "y": 952.7284109251641,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.536444501214243e-11
+    },
+    {
+      "galaxy_id": "goods-s-deephst:16625",
+      "x": 105.53788145258477,
+      "y": 133.2811303613953,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.5363177631647345e-11
+    },
+    {
       "galaxy_id": "goods-s-deephst:16996",
       "x": 1294.2023971663975,
       "y": 279.2296263135636,
@@ -23,11 +51,32 @@
       "roundtrip_residual_arcsec": 0.0
     },
     {
+      "galaxy_id": "goods-s-deephst:17435",
+      "x": 175.52003172975492,
+      "y": 436.0656690741507,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 1.144999685326866e-11
+    },
+    {
       "galaxy_id": "goods-s-deephst:17566",
       "x": 1480.2452700080898,
       "y": 487.9157167176372,
       "inside_image": true,
       "roundtrip_residual_arcsec": 1.144999685326866e-11
+    },
+    {
+      "galaxy_id": "goods-s-deephst:17777",
+      "x": 276.8389381310826,
+      "y": 536.4289699874557,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 4.6690281089296425e-11
+    },
+    {
+      "galaxy_id": "goods-s-deephst:18090",
+      "x": 302.1088192241323,
+      "y": 642.5578155252601,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 0.0
     },
     {
       "galaxy_id": "goods-s-deephst:18970",
@@ -79,6 +128,13 @@
       "roundtrip_residual_arcsec": 4.579998741307464e-11
     },
     {
+      "galaxy_id": "goods-s-deephst:21150",
+      "x": 8.974978455594282,
+      "y": 1380.8795066621215,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 5.108742592217712e-11
+    },
+    {
       "galaxy_id": "goods-s-deephst:21598",
       "x": 1482.5626531633561,
       "y": 1475.316259727938,
@@ -93,25 +149,165 @@
       "roundtrip_residual_arcsec": 5.682530188983876e-11
     },
     {
-      "galaxy_id": "goods-s-deephst:10005447",
-      "x": 759.828335476247,
-      "y": 1279.026398405812,
+      "galaxy_id": "goods-s-deephst:22078",
+      "x": 1749.1944429328128,
+      "y": 1613.4642979516138,
       "inside_image": true,
-      "roundtrip_residual_arcsec": 2.536494937775769e-11
+      "roundtrip_residual_arcsec": 2.289999370653732e-11
     },
     {
-      "galaxy_id": "goods-s-deephst:10008071",
-      "x": 1650.611949261579,
-      "y": 1014.2339724380477,
+      "galaxy_id": "goods-s-deephst:22251",
+      "x": 1695.3296084475364,
+      "y": 1665.4011816525644,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 6.439621820757232e-11
+    },
+    {
+      "galaxy_id": "goods-s-deephst:22924",
+      "x": 1855.963426927436,
+      "y": 1910.7458388070663,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 4.113696162896564e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:131798",
+      "x": 745.2902480135026,
+      "y": 884.1581935547774,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.2632879848914293e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:132379",
+      "x": 1040.0214671248145,
+      "y": 952.0910635738273,
       "inside_image": true,
       "roundtrip_residual_arcsec": 0.0
     },
     {
-      "galaxy_id": "goods-s-deephst:10013682",
-      "x": 273.75625363598647,
-      "y": 952.7284109251641,
+      "galaxy_id": "goods-s-mediumjwst1180:208105",
+      "x": 1645.608010164332,
+      "y": 18.279082315464166,
       "inside_image": true,
-      "roundtrip_residual_arcsec": 2.536444501214243e-11
+      "roundtrip_residual_arcsec": 4.113515698914387e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:208134",
+      "x": 1527.3879295159873,
+      "y": 70.04906248598854,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.263146822284883e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:209277",
+      "x": 1470.9900191232473,
+      "y": 503.8342986599305,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 3.2196694001115344e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:209777",
+      "x": 1228.4764148193012,
+      "y": 708.2794130288275,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 0.0
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:30141885",
+      "x": 1116.5439031541323,
+      "y": 1011.0174038849686,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.5364534728563258e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:30142600",
+      "x": 477.0729413160052,
+      "y": 873.1431982290605,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 0.0
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:30143240",
+      "x": 1378.28239208085,
+      "y": 867.8127337273049,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 3.2197137520931716e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:51925",
+      "x": 1896.9378848149809,
+      "y": 185.57704969523638,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 3.219630605726765e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:54659",
+      "x": 1483.789502907844,
+      "y": 1071.1443876600397,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 1.144999685326866e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:55977",
+      "x": 1897.9262172262702,
+      "y": 1413.153786935094,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.289999370653732e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:56007",
+      "x": 1307.5360326252503,
+      "y": 1436.3341365725828,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.5365192382802972e-11
+    },
+    {
+      "galaxy_id": "goods-s-mediumjwst1180:56452",
+      "x": 569.9199961488312,
+      "y": 1590.4415370958359,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.2634104004778856e-11
+    },
+    {
+      "galaxy_id": "goods-s-ultradeep:131642",
+      "x": 705.4835523942565,
+      "y": 859.3988811878021,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 0.0
+    },
+    {
+      "galaxy_id": "goods-s-ultradeep:132574",
+      "x": 288.41889344470746,
+      "y": 975.0799648053121,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 2.2633037711134826e-11
+    },
+    {
+      "galaxy_id": "goods-s-ultradeep:134811",
+      "x": 623.8254434298296,
+      "y": 1212.930661541267,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 0.0
+    },
+    {
+      "galaxy_id": "goods-s-ultradeep:137573",
+      "x": 1441.0838019110415,
+      "y": 1523.084412442543,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 1.144999685326866e-11
+    },
+    {
+      "galaxy_id": "goods-s-ultradeep:20213084",
+      "x": 1181.7378712889222,
+      "y": 1785.107453730323,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 5.108773596908019e-11
+    },
+    {
+      "galaxy_id": "goods-s-ultradeep:212506",
+      "x": 1507.4703786218925,
+      "y": 1587.970062595271,
+      "inside_image": true,
+      "roundtrip_residual_arcsec": 0.0
     }
   ],
   "frontend_note": "For a top-left-origin image, y_display = height - 1 - y; scale both axes when resizing."

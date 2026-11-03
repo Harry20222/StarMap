@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { formatDistance, type SelectableGalaxy } from "../data/galaxies";
 import { CloseIcon } from "./Icons";
+import { Term } from "./InfoTip";
 
 type GalaxyPopupProps = {
   galaxy: SelectableGalaxy;
@@ -54,44 +55,53 @@ export function GalaxyPopup({ galaxy, cosmology, onClose }: GalaxyPopupProps) {
         </p>
       </div>
       <div className="distance-block">
-        <p>Estimated comoving distance from us</p>
+        <p>
+          Estimated <Term name="Comoving distance">comoving distance</Term> from
+          us
+        </p>
         <h3
           data-testid="distance"
           data-distance-ly={galaxy.distance_from_us.value ?? "unknown"}
         >
           {formatDistance(galaxy.distance_from_us)}
         </h3>
-        <span className="model-label">{cosmology} cosmological model</span>
+        <span className="model-label">
+          {cosmology} cosmological model · <Term name="Light-year" />
+        </span>
       </div>
       <dl className="galaxy-details">
         <div>
           <dt>
-            Right ascension <span>RA · ICRS</span>
+            <Term name="Right ascension" /> <span>RA · ICRS</span>
           </dt>
           <dd data-testid="ra">{coordinate(galaxy.ra_deg)}</dd>
         </div>
         <div>
           <dt>
-            Declination <span>Dec · ICRS</span>
+            <Term name="Declination" /> <span>Dec · ICRS</span>
           </dt>
           <dd data-testid="dec">{coordinate(galaxy.dec_deg)}</dd>
         </div>
         <div>
           <dt>
-            Spectroscopic redshift <span>z</span>
+            <Term name="Spectroscopic redshift" /> <span>z</span>
           </dt>
           <dd data-testid="redshift">
             {galaxy.redshift?.toFixed(6) ?? "Unknown"}
           </dd>
         </div>
         <div>
-          <dt>Redshift quality</dt>
+          <dt>
+            <Term name="Redshift quality" />
+          </dt>
           <dd>
             <span className="quality-badge">{galaxy.redshift_quality}</span>
           </dd>
         </div>
         <div>
-          <dt>Redshift uncertainty</dt>
+          <dt>
+            <Term name="Redshift uncertainty" />
+          </dt>
           <dd data-testid="redshift-uncertainty">
             {galaxy.redshift_uncertainty === null
               ? "not published"
