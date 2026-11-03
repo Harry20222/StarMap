@@ -422,7 +422,7 @@ test("the same comparison UI works with the initial 15-galaxy / 105-pair fixture
   await assertPair(page, "goods-s-deephst:17160", B, original.pairs);
 });
 
-test("resizing cancels a comparison whose endpoint becomes hidden", async ({
+test("resizing keeps selected galaxies visible even when normal culling would hide them", async ({
   page,
   isMobile,
 }) => {
@@ -450,10 +450,15 @@ test("resizing cancels a comparison whose endpoint becomes hidden", async ({
     .press("Enter");
   await assertPair(page, disappearing, remaining);
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.getByTestId("comparison-a")).toHaveCount(0);
-  await expect(page.getByTestId("comparison-line")).toHaveCount(0);
-  await expect(page.getByRole("status")).toContainText(
-    "visible markers changed",
+  await assertPair(page, disappearing, remaining);
+  await expect(
+    page.locator(`[data-galaxy-id="${disappearing}"].is-selected`),
+  ).toHaveCount(1);
+  await page
+    .getByRole("button", { name: "Clear comparison", exact: true })
+    .click();
+  await expect(page.locator(`[data-galaxy-id="${disappearing}"]`)).toHaveCount(
+    0,
   );
 });
 

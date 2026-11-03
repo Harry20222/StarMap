@@ -940,6 +940,92 @@ kbd {
   color: #a8b3ad;
   line-height: 1.6;
 }
+.example-pair-button {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #587566;
+  border-radius: 3px;
+  background: #1c2c24;
+  color: var(--mint);
+  font-size: 11px;
+}
+.example-pair-button:hover {
+  background: #2a4032;
+}
+.galaxy-search {
+  position: relative;
+  margin-top: 18px;
+}
+.galaxy-search label {
+  display: block;
+  color: #d5e5d8;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+.galaxy-search input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #43564b;
+  border-radius: 3px;
+  background: #0e1718;
+  color: #e3eadf;
+  font-size: 16px;
+}
+.galaxy-search input::placeholder {
+  color: #889b90;
+}
+.search-hint,
+.search-result-count {
+  display: block;
+  color: #9aae9e;
+  font-size: 10px;
+  margin-top: 7px;
+}
+.search-results {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 10px;
+  background: #17251e;
+  border: 1px solid #587566;
+  border-radius: 4px;
+  box-shadow: 0 12px 24px #0008;
+}
+.search-result-count {
+  margin: 0 3px 8px;
+}
+.search-results ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 235px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.search-results li {
+  min-height: 44px;
+  padding: 12px 9px;
+  font:
+    11px/1.8 "IBM Plex Mono",
+    monospace;
+  overflow-wrap: anywhere;
+  color: #d7e7d9;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.search-results li:hover,
+.search-results li[aria-selected="true"] {
+  background: #304a39;
+  color: #fff;
+}
+.selected-overlap-note {
+  display: block;
+  margin-top: 5px;
+  color: var(--amber);
+}
 .compare-map {
   touch-action: none;
 }

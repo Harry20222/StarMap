@@ -4,7 +4,9 @@ Select a ring on the real JADES GOODS-S three-filter color image to inspect one 
 The selectable set is derived from the backend exports, including galaxies
 outside the three backend example pairs. There are currently 43 unique quality-A
 objects and 903 exported pairs. The visible set is filtered at the current
-display width to prevent overlapping circles; all 43 records remain in the data.
+display width to prevent overlapping circles. **Find a galaxy** searches all 43
+IDs, including hidden rings. Select a result with click/tap or Arrow keys and
+Enter. The selected galaxy appears at its actual position and opens the inspector.
 The map opens in **Color** mode. Use the **Color / Black and white** buttons above
 the image to switch between the three-filter composite and the original F200W
 grayscale image. Switching updates the image caption and keeps the current galaxy
@@ -40,8 +42,9 @@ Opening index.html using file:// is not supported by browser module security.
    relative path from that module). It joins them by **galaxy_id**, validates
    coordinate conventions and distance units, and filters quality **A** markers
    that lie inside the image. No IDs or sample count are hard-coded.
-2. `src/components/GalaxyMap.tsx` displays the static `results/goods_s_color.png`
-   and interactive rings in one SVG. Real JADES DR2 F090W, F200W, and F444W SCI
+2. `src/components/GalaxyMap.tsx` displays a static WebP through `MapImage.tsx`
+   and interactive rings in one SVG. The variants come directly from the existing
+   `results/goods_s_color.png` and `results/goods_s_f200w.png`. Real JADES DR2 F090W, F200W, and F444W SCI
    observations map to blue, green, and red. The color image has exactly the same
    grid as the native 2,000 × 2,000 F200W reference crop, without axes or baked-in
    markers. `results/goods_s_f200w.png` and `results/galaxy_map.png` remain the
@@ -54,6 +57,7 @@ Opening index.html using file:// is not supported by browser module security.
    Escape behavior. `src/data/markerLayout.ts` handles viewport-dependent culling.
    `src/components/InfoTip.tsx` contains the scientific glossary and accessible
    hover/focus/tap tooltips.
+   `GalaxySearch.tsx` provides an accessible combobox over every eligible record.
    `src/styles.css` controls all appearance and responsive layouts.
 
 `distance_from_us` has a numeric value (or null), unit `ly`, and convention
@@ -89,8 +93,12 @@ then larger **F200W_RHALF** (published DR2 circularized half-light radius in
 arcseconds), then full ID for ties or incomparable sizes. The comparison includes
 the largest possible selected outline plus a small gap. The greedy result is a
 maximal set respecting priority, not a claim of globally maximizing marker count.
-Hidden markers are omitted from the SVG but their full records and pairs remain
-in the imported JSON. The legend shows visible/total counts and hidden count.
+Hidden markers are omitted from the SVG but remain selectable through search.
+Selections are pinned before other markers are laid out, so their circles stay
+visible through resizing. Other markers that collide with a selection are hidden.
+Two selected circles may overlap when their galaxies are close; neither position
+is shifted. Both full IDs remain in the comparison panel. The legend shows the
+current visible/total and hidden counts, which can change with selection.
 
 Invisible hit circles provide
 44-pixel touch areas where possible. Dense regions can have overlapping hit
@@ -98,10 +106,14 @@ areas: a pointer event selects the nearest actual galaxy center rather than
 relying on paint order. Keyboard users can Tab to each ring and press Enter or
 Space. In **Inspect**, one galaxy opens its existing popup. In **Compare**, drag
 from one visible ring to another, or select A and B in sequence with click/tap/
-keyboard. Two distinct visible markers are required. Empty-sky releases, a drag
+keyboard. Search can supply either or both galaxies, including normally hidden
+ones. **Try an example pair** selects `goods-s-deephst:21598` and
+`goods-s-deephst:21842` and looks up their existing exported measurements. No
+measurements are hard-coded. Empty-sky releases, a drag
 back to the starting galaxy, or selecting A twice cancel the unfinished pair.
-Escape and Clear comparison reset it. Resizing clears a pending or completed
-pair if one of its endpoints becomes hidden. Amber rings and a line identify
+Escape and Clear comparison reset it. Clicking the already active Inspect or
+Compare mode does nothing; switching between different modes still clears the
+selection. Resizing keeps selections pinned. Amber rings and a line identify
 the comparison. The line is angular separation on the sky, while the exported
 3D separation also uses both radial comoving distances. On phones the completed
 result follows the map and scrolls into view; choosing A alone does not scroll
@@ -120,6 +132,22 @@ Background subtraction, channel balance, and a shared-intensity Lupton asinh
 stretch reveal faint sources while compressing bright cores. These display
 adjustments do not change any catalog, marker, or distance. Source URLs, hashes,
 registration checks, and exact rendering settings are in `results/goods_s_color.md`.
+
+To regenerate the display variants from those unchanged PNGs, run
+`python frontend/scripts/export_map_images.py` from the repository root with
+the existing environment (Pillow is already available). This exports the entire
+square image at 640, 1280, and 2000 pixels using Lanczos resizing and WebP quality
+90, with no recrop, rotation, or new color stretch. Files live in `src/assets/`.
+The SVG keeps its original 2000-unit coordinate grid regardless of asset size.
+`MapImage` waits for the measured image width, considers device pixel ratio, and
+sets only one image URL. Color is the default; grayscale image bytes are fetched
+only when that mode is chosen. The original scientific PNGs remain unchanged.
+
+The 640/1280 color variants are 87,678 / 463,934 bytes; grayscale variants are
+91,598 / 469,752 bytes. Vite emits content-hashed filenames. The root Vercel
+headers apply one-year immutable caching only to hashed `/assets/` filenames;
+stable names and the homepage do not match that rule. `frame-ancestors 'none'`
+is the explicit embedding policy because the portfolio links to StarMap.
 
 ## Verification
 
@@ -140,6 +168,10 @@ pair by desktop pointer drag and mobile taps against all four exact JSON values,
 check reverse order and cancellation, and verify tooltip hover/focus/tap behavior.
 Priority tests cover quality, apparent size, missing-size ID fallback, stable
 ordering, and the reason every hidden marker was suppressed.
+Additional checks inspect every normally hidden galaxy through search, exercise
+combobox keyboard navigation, mix map/search selections, compare the example
+pair, preserve active-mode selections, and verify that phones download one
+appropriately sized color WebP while grayscale waits for its toggle.
 
 The archived original sample has all 105 pairs. A development-only test fixture
 at `tests/fixtures/prototype1.html` mounts this same App with those 15 galaxies;

@@ -11,33 +11,26 @@ export function App({ field }: { field: GalaxyField }) {
   const [mode, setMode] = useState<"inspect" | "compare">("inspect");
   const [startId, setStartId] = useState<string | null>(null);
   const [pairIds, setPairIds] = useState<[string, string] | null>(null);
-  const [visibleIds, setVisibleIds] = useState(
-    field.galaxies.map((g) => g.galaxy_id),
-  );
-  const [notice, setNotice] = useState("");
   const clearComparison = useCallback(() => {
     setStartId(null);
     setPairIds(null);
-    setNotice("");
   }, []);
   const changeMode = (next: "inspect" | "compare") => {
+    if (next === mode) return;
     setMode(next);
     setSelected(null);
     clearComparison();
   };
-  const visibleChanged = useCallback((ids: string[]) => {
-    setVisibleIds((previous) =>
-      JSON.stringify(previous) === JSON.stringify(ids) ? previous : ids,
-    );
-  }, []);
   const completePair = (a: string, b: string) => {
-    if (a === b || !visibleIds.includes(a) || !visibleIds.includes(b)) {
+    if (
+      a === b ||
+      ![a, b].every((id) => field.galaxies.some((g) => g.galaxy_id === id))
+    ) {
       clearComparison();
       return;
     }
     setPairIds([a, b]);
     setStartId(null);
-    setNotice("");
   };
   const chooseGalaxy = (galaxy: SelectableGalaxy) => {
     if (mode === "inspect") {
@@ -47,29 +40,18 @@ export function App({ field }: { field: GalaxyField }) {
     if (!startId) {
       setStartId(galaxy.galaxy_id);
       setPairIds(null);
-      setNotice("");
     } else if (startId === galaxy.galaxy_id) clearComparison();
     else completePair(startId, galaxy.galaxy_id);
   };
-  useEffect(() => {
-    if (
-      (startId && !visibleIds.includes(startId)) ||
-      pairIds?.some((id) => !visibleIds.includes(id))
-    ) {
-      setStartId(null);
-      setPairIds(null);
-      setNotice(
-        "The visible markers changed. Choose two visible galaxies again.",
-      );
-    }
-    if (selected && !visibleIds.includes(selected.galaxy_id)) setSelected(null);
-  }, [visibleIds, startId, pairIds, selected]);
   const closeSelection = useCallback(() => {
     const id = selected?.galaxy_id;
     setSelected(null);
     if (id)
       requestAnimationFrame(() =>
-        document.getElementById(`galaxy-${id}`)?.focus({ preventScroll: true }),
+        (
+          document.getElementById(`galaxy-${id}`) ??
+          document.querySelector<HTMLInputElement>('input[role="combobox"]')
+        )?.focus({ preventScroll: true }),
       );
   }, [selected]);
 
@@ -117,7 +99,8 @@ export function App({ field }: { field: GalaxyField }) {
           <p className="intro-description">
             Every ring marks a galaxy with a highly robust{" "}
             <Term name="Spectroscopic redshift">spectroscopic redshift</Term>.
-            Inspect one galaxy or compare two to explore their estimated distances.
+            Inspect one galaxy or compare two to explore their estimated
+            distances.
           </p>
         </section>
         <div className="workspace">
@@ -132,12 +115,20 @@ export function App({ field }: { field: GalaxyField }) {
             onCompareStart={(id) => {
               setStartId(id);
               setPairIds(null);
-              setNotice("");
             }}
             onCompareComplete={completePair}
             onCompareCancel={clearComparison}
-            onVisibleChange={visibleChanged}
-            notice={notice}
+            onExamplePair={
+              ["goods-s-deephst:21598", "goods-s-deephst:21842"].every((id) =>
+                field.galaxies.some((g) => g.galaxy_id === id),
+              )
+                ? () =>
+                    completePair(
+                      "goods-s-deephst:21598",
+                      "goods-s-deephst:21842",
+                    )
+                : undefined
+            }
           />
           <aside className="inspector-column" aria-label="Galaxy information">
             {mode === "compare" ? (
@@ -195,8 +186,8 @@ export function App({ field }: { field: GalaxyField }) {
               <p className="eyebrow">LOOKING DEEPER</p>
               <p>
                 This small patch of sky holds galaxies billions of{" "}
-                <Term name="Light-year">light-years</Term>{" "}
-                away. Nearby on the image can still mean far apart in space.
+                <Term name="Light-year">light-years</Term> away. Nearby on the
+                image can still mean far apart in space.
               </p>
             </div>
             <div className="source-note">

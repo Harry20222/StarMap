@@ -1,16 +1,17 @@
 import {
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
   type MouseEvent,
   type PointerEvent,
 } from "react";
-import colorImage from "../../../results/goods_s_color.png?url";
-import grayscaleImage from "../../../results/goods_s_f200w.png?url";
 import type { GalaxyField, SelectableGalaxy } from "../data/galaxies";
 import { layoutMarkers } from "../data/markerLayout";
 import { Term } from "./InfoTip";
+import { GalaxySearch } from "./GalaxySearch";
+import { MapImage } from "./MapImage";
 
 type Point = { x: number; y: number };
 type GalaxyMapProps = {
@@ -24,8 +25,7 @@ type GalaxyMapProps = {
   onCompareStart: (id: string) => void;
   onCompareComplete: (a: string, b: string) => void;
   onCompareCancel: () => void;
-  onVisibleChange: (ids: string[]) => void;
-  notice: string;
+  onExamplePair?: () => void;
 };
 
 export function GalaxyMap({
@@ -39,11 +39,10 @@ export function GalaxyMap({
   onCompareStart,
   onCompareComplete,
   onCompareCancel,
-  onVisibleChange,
-  notice,
+  onExamplePair,
 }: GalaxyMapProps) {
   const [imageMode, setImageMode] = useState<"color" | "grayscale">("color");
-  const [displayWidth, setDisplayWidth] = useState(800);
+  const [displayWidth, setDisplayWidth] = useState(0);
   const [imageFailed, setImageFailed] = useState(false);
   const [preview, setPreview] = useState<{
     startId: string;
@@ -59,16 +58,24 @@ export function GalaxyMap({
     moved: boolean;
   } | null>(null);
   const suppressClick = useRef(false);
+  const pinnedIds = useMemo(
+    () =>
+      [selectedId, startId, ...(pairIds ?? [])].filter(
+        (id): id is string => id !== null,
+      ),
+    [selectedId, startId, pairIds],
+  );
   const layout = useMemo(
-    () => layoutMarkers(field.galaxies, field.width, displayWidth),
-    [field.galaxies, field.width, displayWidth],
+    () => layoutMarkers(field.galaxies, field.width, displayWidth, pinnedIds),
+    [field.galaxies, field.width, displayWidth, pinnedIds],
   );
   const signature = layout.visible.map((g) => g.galaxy_id).join("|");
-  useEffect(() => {
-    onVisibleChange(layout.visible.map((g) => g.galaxy_id));
-  }, [signature, onVisibleChange]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!frame.current) return;
+    setDisplayWidth(
+      svgRef.current?.getBoundingClientRect().width ??
+        frame.current.clientWidth,
+    );
     const observer = new ResizeObserver(([entry]) =>
       setDisplayWidth(entry.contentRect.width),
     );
@@ -188,14 +195,13 @@ export function GalaxyMap({
   const destination =
     preview?.point ?? layout.visible.find((g) => g.galaxy_id === pairIds?.[1]);
   const progress =
-    notice ||
-    (mode === "inspect"
-      ? "Click or tap a ring to inspect a galaxy."
+    mode === "inspect"
+      ? "Click or tap a ring, or find any galaxy by ID."
       : startId
         ? `Galaxy A selected: ${startId}. Choose galaxy B.`
         : pairIds
           ? "Comparison complete. Select or drag to start another pair."
-          : "Drag between two rings, or select galaxy A then galaxy B.");
+          : "Drag between two rings, or select galaxy A then galaxy B using rings or search.";
 
   return (
     <figure className="map-card">
@@ -256,10 +262,20 @@ export function GalaxyMap({
           </div>
           <span>
             {mode === "compare"
-              ? "Connect two visible galaxies"
+              ? "Connect any two galaxies"
               : "Explore one galaxy at a time"}
           </span>
+          {mode === "compare" && onExamplePair && (
+            <button
+              type="button"
+              className="example-pair-button"
+              onClick={onExamplePair}
+            >
+              Try an example pair
+            </button>
+          )}
         </div>
+        <GalaxySearch galaxies={field.galaxies} onSelect={onSelect} />
       </figcaption>
       <div className="map-frame" ref={frame}>
         {imageFailed ? (
@@ -301,14 +317,12 @@ export function GalaxyMap({
                 : "GOODS-S F200W black-and-white image"}{" "}
               with selectable quality-A galaxies
             </title>
-            <image
-              href={imageMode === "color" ? colorImage : grayscaleImage}
-              x={-0.5}
-              y={-0.5}
+            <MapImage
+              mode={imageMode}
+              displayWidth={displayWidth}
               width={field.width}
               height={field.height}
               onError={() => setImageFailed(true)}
-              aria-hidden="true"
             />
             {source && destination && (
               <line
@@ -399,7 +413,15 @@ export function GalaxyMap({
       </div>
       <p className="overlap-note">
         {layout.hiddenCount} hidden to prevent overlapping rings. Larger
-        apparent galaxies take priority; all records remain in the catalog.
+        apparent galaxies take priority. Find any galaxy by ID; selected rings
+        always stay visible.
+        {layout.selectedOverlap && (
+          <span className="selected-overlap-note">
+            {" "}
+            These selected galaxies are close on the sky. Both positions are
+            accurate; their full IDs are in the comparison panel.
+          </span>
+        )}
       </p>
       <p
         className="map-instructions"

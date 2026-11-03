@@ -37,7 +37,7 @@ the same comparison UI against this original sample before the expanded data.
 ## Frontend: open the field explorer
 
 The frontend is in `frontend/` and uses React, TypeScript, CSS, and Vite. It
-imports the backend JSON files and clean PNG directly; **no Python API server
+imports the backend JSON files and derived display images directly; **no Python API server
 is needed**. Node.js 20.19+ or 22.12+ is required (Node 24 was used here).
 
 First-time setup, from the repository root:
@@ -56,16 +56,22 @@ does not run a Python web server. `run_starmap.py` still runs the backend export
 Thin green rings identify visible quality-A galaxies. Apparent F200W half-light
 radii from the documented DR2 photometric catalog rank equally reliable galaxies
 when rings would overlap. The layout is recomputed at the current display size,
-including room for selected outlines; hidden galaxies remain in the dataset.
+including room for selected outlines. **Find a galaxy** searches every ID,
+including galaxies whose rings are hidden. Search results work with click/tap,
+Arrow keys, and Enter. Selected rings always appear at their actual coordinates,
+and other colliding rings are hidden. Two close selected rings may overlap;
+both IDs remain visible in the comparison panel.
 The legend reports visible and total counts (for example, about 39 on desktop
 and 28 on a 390-pixel phone viewport, out of 43 records). Counts can vary with width.
 A selected galaxy gets a distinct amber outline.
 Click another ring to update the inspector, or dismiss with its close button or
 Escape. Tab and Enter/Space also select markers. On small screens, the inspector
 appears below the image and scrolls into view without covering the other rings.
-In Compare mode the first ring selects A, and the second distinct visible ring
-selects B. Dragging to empty sky or back onto the starting ring cancels the
-unfinished line. A resize that hides a comparison endpoint clears the pair.
+In Compare mode, select A and B using the map, search, or a mixture of both.
+**Try an example pair** selects 21598 and 21842 using their existing exported
+measurements. Dragging to empty sky or back onto the starting ring cancels the
+unfinished line. Selections remain visible through resizing. Clicking the active
+mode does nothing; switching modes and the intentional clear controls reset it.
 The drawn line represents separation on the sky; the 3D estimate also uses both
 galaxies' radial comoving distances. Escape or Clear comparison resets the pair.
 
@@ -81,6 +87,12 @@ must be rebuilt after exports change. From `frontend/`, `npm run build` creates
 the self-contained static site in `dist/`; `npm run preview` serves that build.
 The image, fonts, and catalog data are bundled locally. Use a static HTTP server
 to view the build rather than double-clicking its HTML file.
+
+The map uses 640/1280/2000-pixel WebP variants generated once from the unchanged
+PNG cutouts. Image resolution follows the actual map width and pixel density;
+the SVG coordinate system stays fixed. Grayscale bytes are fetched only after
+the user chooses that mode. Regenerate variants with
+`python frontend/scripts/export_map_images.py` after updating the source PNGs.
 
 See `frontend/README.md` for component structure, data flow, and browser tests.
 
@@ -157,6 +169,26 @@ function explicitly includes the two exports and excludes frontend/image/data
 files from its runtime bundle. `.vercelignore` also omits local environments,
 caches, test fixtures, and review screenshots from CLI uploads, while retaining
 both real map PNGs and the two current exports for the frontend build.
+
+The top-level response headers set **Content-Security-Policy:
+`frame-ancestors 'none';`**, since the portfolio only links to StarMap. A separate
+rule applies **Cache-Control: `public, max-age=31536000, immutable`** only to
+Vite-generated `/assets/<name>-<8-character-hash>.<extension>` paths. The homepage,
+stable filenames, and read-only `/api` responses stay outside the immutable rule.
+Existing public routes and API behavior are preserved.
+
+After deploying, check the actual response headers on the live domain with
+`curl.exe -I https://starmap-rkdg.vercel.app/` and on one newly emitted hashed
+WebP/JS asset (use its exact filename from `frontend/dist/assets/`). Confirm CSP
+is present, hashed assets receive immutable caching, and `/`, `/index.html`,
+and `/api/measurements.json` do not receive immutable caching. Local config and
+development-server checks do not establish what the production CDN returns.
+In the checked Vercel CLI 65.11.0 services preview, the top-level CSP/cache header
+overrides were not emitted. Vercel's own route compiler did validate the cache
+matcher against all 40 generated assets and reject the homepage, API, and stable
+asset names. Check the actual headers after deployment rather than treating the
+development preview as proof of CDN behavior. The embedding directive is
+documented in [MDN's frame-ancestors reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/frame-ancestors).
 
 ## Install and run
 
@@ -253,7 +285,8 @@ Marker visibility prioritizes redshift quality first, then the larger comparable
 apparent radius. Equal or incomparable sizes use the full galaxy ID as a stable
 tie-breaker. A deterministic greedy pass retains a maximal non-overlapping set;
 it preserves the larger-priority object even when several smaller neighbors
-could otherwise fit. Marker ring diameters are display aids, not galaxy sizes.
+could otherwise fit. Explicit selections are pinned first; only two selected
+rings may overlap. Marker ring diameters are display aids, not galaxy sizes.
 
 The catalog already supplies NIRCam matches within 0.2 arcsec. Compatibility is
 checked spatially against the DR2 GOODS-S image, rather than by assuming matching
@@ -358,7 +391,7 @@ inspection is recorded in `results/alignment_review.md`; some targets are faint
 in this single filter. Dark masked regions in the mosaic are not sky structures.
 `results/goods_s_f200w.png` is the original clean, unannotated 2,000 × 2,000
 grayscale reference, with pixel rows flipped for top-left browser coordinates.
-The frontend now displays the static `results/goods_s_color.png`: real JADES DR2
+The frontend displays static WebPs derived from `results/goods_s_color.png`: real JADES DR2
 F090W → blue, F200W → green, and F444W → red, registered to exactly the existing
 F200W cutout's WCS and pixel grid. The caption identifies these assigned colors.
 Generate this asset only when needed with `python -m starmap.color_image`; the
@@ -415,7 +448,8 @@ zero-based pixel centers with a bottom-left origin. The frontend uses
 `y_top = height - 1 - y` and places both the image and rings in one SVG viewBox,
 so they resize together. The annotated
 PNG has plot margins and axes: its full canvas dimensions must not be treated as
-the raw FITS image dimensions. The UI uses the clean pixel-only PNG instead.
+the raw FITS image dimensions. The UI uses display WebPs derived from the clean
+pixel-only PNGs, preserving their full extent and orientation.
 
 Schema 1.2 additionally records the optional apparent-size fields and exports
 every unique pair by default: n(n−1)/2 results for n records. There are 105 for

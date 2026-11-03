@@ -128,7 +128,8 @@ export function ComparisonPanel({
           {startId && <p className="full-galaxy-id">A · {startId}</p>}
           <p>
             Drag from one visible ring to another, or select two rings in
-            sequence. Click, tap, or use Tab and Enter.
+            sequence using the map or Find a galaxy. Click, tap, or use Tab and
+            Enter.
           </p>
           <p>
             Releasing on empty sky or the starting galaxy cancels an unfinished

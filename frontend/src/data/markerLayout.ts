@@ -31,6 +31,7 @@ export function layoutMarkers(
   galaxies: SelectableGalaxy[],
   imageWidth: number,
   displayWidth: number,
+  selectedIds: readonly string[] = [],
 ) {
   const scale = Math.max(displayWidth / imageWidth, 0.001);
   const ringRadius = Math.max(17, 6 / scale);
@@ -40,8 +41,12 @@ export function layoutMarkers(
   const ranked = [...galaxies]
     .sort((a, b) => (a.galaxy_id < b.galaxy_id ? -1 : 1))
     .sort(markerPriority);
-  const accepted: SelectableGalaxy[] = [];
+  // Selections always remain at their real positions, even when two selected
+  // rings touch. Ordinary markers still reserve space around every selection.
+  const pinned = galaxies.filter((g) => selectedIds.includes(g.galaxy_id));
+  const accepted: SelectableGalaxy[] = [...pinned];
   for (const galaxy of ranked) {
+    if (selectedIds.includes(galaxy.galaxy_id)) continue;
     if (
       accepted.every(
         (other) =>
@@ -52,12 +57,22 @@ export function layoutMarkers(
   }
   const ids = new Set(accepted.map((g) => g.galaxy_id));
   return {
-    visible: galaxies.filter((g) => ids.has(g.galaxy_id)),
+    visible: [
+      ...galaxies.filter(
+        (g) => ids.has(g.galaxy_id) && !selectedIds.includes(g.galaxy_id),
+      ),
+      ...pinned,
+    ],
     hiddenCount: galaxies.length - accepted.length,
     scale,
     ringRadius,
     highlightRadius,
     hitRadius: Math.max(ringRadius + 9 / scale, 22 / scale),
     clearance,
+    selectedOverlap: pinned.some((g, i) =>
+      pinned
+        .slice(i + 1)
+        .some((other) => Math.hypot(g.x - other.x, g.y - other.y) < clearance),
+    ),
   };
 }
