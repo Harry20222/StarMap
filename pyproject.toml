@@ -13,10 +13,14 @@ dependencies = [
   "scipy>=1.12,<2",
   "matplotlib>=3.8,<4",
   "fsspec[http]>=2024.6",
+  "pymongo>=4.11,<5",
+  "dnspython>=2.6,<3",
+  "python-dotenv>=1,<2",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8,<10"]
+dev = ["pytest>=8,<10", "mongomock>=4.3,<5"]
+mongodb = ["pymongo>=4.11,<5", "python-dotenv>=1,<2"]
 
 [project.scripts]
 starmap = "starmap.cli:main"

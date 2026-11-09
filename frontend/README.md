@@ -1,83 +1,49 @@
-# Frontend Prototype 2: GOODS-S field explorer and comparison
+# GOODS-S field explorer
 
-Select a ring on the real JADES GOODS-S three-filter color image to inspect one galaxy.
-The selectable set is derived from the backend exports, including galaxies
-outside the three backend example pairs. There are currently 43 unique quality-A
-objects and 903 exported pairs. The visible set is filtered at the current
-display width to prevent overlapping circles. **Find a galaxy** searches all 43
-IDs, including hidden rings. Select a result with click/tap or Arrow keys and
-Enter. The selected galaxy appears at its actual position and opens the inspector.
-The map opens in **Color** mode. Use the **Color / Black and white** buttons above
-the image to switch between the three-filter composite and the original F200W
-grayscale image. Switching updates the image caption and keeps the current galaxy
-selection, marker alignment, and popup details unchanged.
+The React app loads its map metadata and 43 quality-A galaxy records from the
+MongoDB-backed Python API. Inspect a galaxy or compare a pair using the real
+JADES GOODS-S image. JSON exports are retained only for migration and regression.
 
 ## Run
 
-Install Node.js 20.19+ or 22.12+ (tested on Node 24). From this directory:
+Start `python app.py` from the repository root with both `MONGODB_URI` and
+`MONGODB_DATABASE` configured on Python. Import the source catalog first with
+`python migrate_mongodb.py`; see the root README for the complete environment setup.
+Then run these commands in `frontend`:
 
 ```powershell
 npm ci
 npm run dev
+npm run build
+npm run preview
 ```
 
-Open the Local URL printed by Vite. After installing dependencies, you can also
-run the repository's `run_frontend.py` with your editor's Run button. That wrapper
-launches Vite and opens the browser. It does not calculate distances or host a
-Python API. The existing `run_starmap.py` remains the backend launcher.
-
-```powershell
-npm run build   # TypeScript check and static output in dist/
-npm run preview # Serve the production build locally
-```
-
-The production app needs only static HTTP hosting. Its JSON data, image, fonts,
-and code are bundled; it has no backend service or external font requests.
-Opening index.html using file:// is not supported by browser module security.
+Vite development and preview proxy `/api` to `http://127.0.0.1:8000`; Python must
+be running. Override the local target with `STARMAP_API_PROXY` if needed.
+Production uses Vercel's existing `/api` rewrite to its Python service.
+No MongoDB settings belong in browser code or `VITE_*` variables.
 
 ## Data flow
 
-1. `src/data/galaxies.ts` imports `../results/markers.json` and
-   `../results/measurements.json` from the repository (the imports use the full
-   relative path from that module). It joins them by **galaxy_id**, validates
-   coordinate conventions and distance units, and filters quality **A** markers
-   that lie inside the image. No IDs or sample count are hard-coded.
-2. `src/components/GalaxyMap.tsx` displays a static WebP through `MapImage.tsx`
-   and interactive rings in one SVG. The variants come directly from the existing
-   `results/goods_s_color.png` and `results/goods_s_f200w.png`. Real JADES DR2 F090W, F200W, and F444W SCI
-   observations map to blue, green, and red. The color image has exactly the same
-   grid as the native 2,000 × 2,000 F200W reference crop, without axes or baked-in
-   markers. `results/goods_s_f200w.png` and `results/galaxy_map.png` remain the
-   original grayscale alignment references.
-3. `src/components/GalaxyPopup.tsx` displays one galaxy's **distance_from_us**
-   value. `ComparisonPanel.tsx` displays the four exported values for a pair.
-   The data adapter indexes all pairs by an unordered ID key and swaps the two
-   radial distances when the user reverses A/B. No distances are computed in JS.
-4. `src/App.tsx` owns Inspect/Compare mode, pending A, completed A/B, and close/
-   Escape behavior. `src/data/markerLayout.ts` handles viewport-dependent culling.
-   `src/components/InfoTip.tsx` contains the scientific glossary and accessible
-   hover/focus/tap tooltips.
-   `GalaxySearch.tsx` provides an accessible combobox over every eligible record.
-   `src/styles.css` controls all appearance and responsive layouts.
+- `src/data/api.ts`: map listing, metadata/catalog requests, and on-demand
+  comparisons; bounded fetches, cancellation, and friendly errors.
+- `src/data/galaxies.ts`: typed records, metadata validation, joins by full ID,
+  quality-A/in-image selection, and the original pixel-center transform.
+- `src/data/useComparison.ts`: async comparison state, retry, abort and stale
+  response protection. No pair table or cosmology calculation in JavaScript.
+- `src/FieldLoader.tsx`: loading, empty, API/database error states and Retry.
+- `src/App.tsx`: Inspect/Compare selections and reset behavior.
+- `GalaxyMap`, `GalaxySearch`, `GalaxyPopup`, `ComparisonPanel`: the existing
+  display/interaction components. `markerLayout.ts` retains overlap priority.
+- `MapImage.tsx`: resolves MongoDB asset references to Vite's hashed static WebPs
+  and requests one appropriately sized variant. Grayscale waits for its toggle.
 
-`distance_from_us` has a numeric value (or null), unit `ly`, and convention
-`comoving`. The popup uses readable million/billion light-years, states Planck18
-from the export, and retains the full galaxy ID. It shows RA and Dec in ICRS
-degrees, redshift, quality, and numerical redshift uncertainty when available;
-the current catalog's null uncertainty is labeled **not published**. The distance
-is a model-based comoving estimate, distinct from light-travel time. Quality
-flags are identification categories, not percentages or distance error bars.
-
-To update the exports, run from the repository root:
-
-```powershell
-.\my_venv\Scripts\python.exe run_starmap.py
-.\my_venv\Scripts\python.exe -m starmap.imaging
-```
-
-Development imports refresh automatically when files change. Rebuild production
-output after changing exports. No manually copied frontend data snapshot needs
-to be kept in sync. Keep `frontend/` beside `results/` in the source checkout.
+The inspector receives Python-calculated `distance_from_us` (`ly`, `comoving`).
+Comparison results preserve A/B order, degrees, light-years, Planck18, and nulls
+for unavailable measurements. A failed comparison retains both selected rings
+and provides Retry comparison. Older responses cannot replace a newer pair.
+The current static image manifest supports GOODS-S; additional map assets can
+be added there with their MongoDB metadata without changing the fetching layer.
 
 ## Alignment and interaction
 
@@ -108,13 +74,13 @@ Space. In **Inspect**, one galaxy opens its existing popup. In **Compare**, drag
 from one visible ring to another, or select A and B in sequence with click/tap/
 keyboard. Search can supply either or both galaxies, including normally hidden
 ones. **Try an example pair** selects `goods-s-deephst:21598` and
-`goods-s-deephst:21842` and looks up their existing exported measurements. No
+`goods-s-deephst:21842` and requests their measurements from the Python API. No
 measurements are hard-coded. Empty-sky releases, a drag
 back to the starting galaxy, or selecting A twice cancel the unfinished pair.
 Escape and Clear comparison reset it. Clicking the already active Inspect or
 Compare mode does nothing; switching between different modes still clears the
 selection. Resizing keeps selections pinned. Amber rings and a line identify
-the comparison. The line is angular separation on the sky, while the exported
+the comparison. The line is angular separation on the sky, while the calculated
 3D separation also uses both radial comoving distances. On phones the completed
 result follows the map and scrolls into view; choosing A alone does not scroll
 the user away from the map.
@@ -151,41 +117,21 @@ is the explicit embedding policy because the portfolio links to StarMap.
 
 ## Verification
 
-Install the test browser once, then run the suite:
-
 ```powershell
 npx playwright install chromium
 npm test
+npm run build
 ```
 
-The suite clicks/taps all currently visible galaxies in desktop and mobile contexts,
-checks that popup IDs, distances, coordinates, redshifts, and uncertainty status
-match the JSON exports, and verifies selection replacement, close, Escape,
-keyboard access, and restored focus. It checks every marker's position relative
-to the image at 1440, 768, 390, and 320 pixel viewport widths, including the
-actual browser transform and circle geometry. Tests compare the same non-original
-pair by desktop pointer drag and mobile taps against all four exact JSON values,
-check reverse order and cancellation, and verify tooltip hover/focus/tap behavior.
-Priority tests cover quality, apparent size, missing-size ID fallback, stable
-ordering, and the reason every hidden marker was suppressed.
-Additional checks inspect every normally hidden galaxy through search, exercise
-combobox keyboard navigation, mix map/search selections, compare the example
-pair, preserve active-mode selections, and verify that phones download one
-appropriately sized color WebP while grayscale waits for its toggle.
+Playwright starts the real Python WSGI application against a fresh in-memory
+mongomock database on 8001 and Vite on 5173, with no live MongoDB credential use.
+Install `.[dev]` into the Python interpreter; use `STARMAP_TEST_PYTHON` to override
+its auto-detection. Both test ports must be free.
 
-The archived original sample has all 105 pairs. A development-only test fixture
-at `tests/fixtures/prototype1.html` mounts this same App with those 15 galaxies;
-it is not part of the production build. The expanded default has all 903 pairs.
-
-Backend tests independently check per-galaxy distance exports, unknown distances,
-and native PNG dimensions and row orientation. The original WCS and calculation
-checks remain in `starmap.verify`. Visual reference artifacts are in `results/`.
-The saved `results/frontend_prototype2_desktop.jpg` and
-`results/frontend_prototype2_mobile.jpg` show the same comparison on desktop and
-mobile. Earlier `frontend_desktop.jpg` and `frontend_mobile.jpg` preserve the
-Prototype 1 inspector previews.
-
-Vercel's two-service setup and optional read-only export API are documented in
-the root README. This browser app still imports the exports directly and has no
-runtime service calls or binding environment variables. Additional fields,
-redshift-error propagation, and a live calculation API remain later milestones.
+Desktop/mobile checks cover visible/hidden galaxy search, inspector metadata,
+click/tap/drag/keyboard comparison, reverse order, example pair, cancellation,
+resize/collision handling, color/grayscale variants, all marker centers at
+320–1440 widths, scientific tooltips, loading/empty/errors/retry and delayed
+responses. The original 15-galaxy/105-pair page and synchronous export adapter
+live only under `tests/fixtures`; they are not part of the production bundle.
+Python tests independently verify all 903 API comparisons and database behavior.

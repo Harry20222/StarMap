@@ -1,4 +1,8 @@
 import { defineConfig } from "@playwright/test";
+import { existsSync } from "node:fs";
+
+const python = process.env.STARMAP_TEST_PYTHON ?? (existsSync("../my_venv/Scripts/python.exe")
+  ? "../my_venv/Scripts/python.exe" : "python");
 
 export default defineConfig({
   testDir: "./tests",
@@ -21,9 +25,14 @@ export default defineConfig({
       },
     },
   ],
-  webServer: {
+  webServer: [{
+    command: `"${python}" tests/serve_api.py`,
+    url: "http://127.0.0.1:8001/api/health",
+    reuseExistingServer: false,
+  }, {
     command: "npm run dev -- --port 5173 --strictPort",
     url: "http://127.0.0.1:5173",
-    reuseExistingServer: !process.env.CI,
-  },
+    reuseExistingServer: false,
+    env: { STARMAP_API_PROXY: "http://127.0.0.1:8001" },
+  }],
 });

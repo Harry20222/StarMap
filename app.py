@@ -1,58 +1,86 @@
-"""Read-only WSGI adapter for the existing exports, deployed as Vercel's app service.
+"""Read-only MongoDB/Astropy WSGI API, also used by Vercel's Python service."""
 
-The React app still bundles these same files at build time. This adapter does
-not run the exporter, download observations, or recalculate any measurements.
-"""
-
-from functools import lru_cache
+from http import HTTPStatus
 import json
 import os
-from pathlib import Path
+import re
+from urllib.parse import parse_qs
+
+from pymongo.errors import PyMongoError
+
+from starmap import catalog
+from starmap.database import DatabaseConfigurationError, get_database
 
 
-RESULTS = Path(__file__).resolve().parent / "results"
-EXPORTS = {
-    "/api/markers.json": "markers.json",
-    "/api/measurements.json": "measurements.json",
-}
-
-
-@lru_cache(maxsize=2)
-def read_export(filename):
-    return (RESULTS / filename).read_bytes()
+def dispatch(path, query):
+    if path in {"/api", "/api/"}:
+        return {"service": "app", "routes": ["/api/health", "/api/maps", "/api/maps/{map_id}",
+                "/api/maps/{map_id}/galaxies", "/api/maps/{map_id}/compare?a={galaxy_id}&b={galaxy_id}"]}
+    if path == "/api/health":
+        get_database().command("ping")
+        return {"status": "ok"}
+    if path == "/api/maps":
+        if query:
+            raise catalog.CatalogError(400, "This endpoint takes no query parameters.")
+        return catalog.list_maps(get_database())
+    match = re.fullmatch(r"/api/maps/([^/]+)(?:/(galaxies|compare))?", path)
+    if not match:
+        raise catalog.CatalogError(404, "Route not found.")
+    map_id, action = match.groups()
+    catalog.validate_map_id(map_id)
+    if action == "compare":
+        try:
+            if len(query) > 512:
+                raise ValueError
+            params = parse_qs(query, keep_blank_values=True, strict_parsing=True, max_num_fields=2)
+            if set(params) != {"a", "b"} or any(len(v) != 1 for v in params.values()):
+                raise ValueError
+        except ValueError:
+            raise catalog.CatalogError(400, "Provide exactly one a and one b galaxy ID.") from None
+        a, b = params["a"][0], params["b"][0]
+        catalog.validate_galaxy_id(a)
+        catalog.validate_galaxy_id(b)
+        return catalog.compare_galaxies(get_database(), map_id, a, b)
+    if query:
+        raise catalog.CatalogError(400, "This endpoint takes no query parameters.")
+    database = get_database()
+    return (catalog.get_map_galaxies(database, map_id) if action == "galaxies"
+            else catalog.get_map(database, map_id))
 
 
 def app(environ, start_response):
-    """Preserve the /api prefix: service rewrites forward the original path."""
+    """Preserve /api: Vercel service rewrites forward the original path."""
     method = environ.get("REQUEST_METHOD", "GET")
-    path = environ.get("PATH_INFO", "/")
     headers = [("Content-Type", "application/json; charset=utf-8")]
-    status = "200 OK"
-    if method not in {"GET", "HEAD"}:
-        status, payload = "405 Method Not Allowed", {"error": "Use GET or HEAD."}
-        headers.append(("Allow", "GET, HEAD"))
-    elif path in EXPORTS:
-        body = read_export(EXPORTS[path])
-        payload = None
-    elif path == "/api/health":
-        payload = {"status": "ok"}
-    elif path in {"/api", "/api/"}:
-        payload = {"service": "app", "exports": list(EXPORTS)}
-    else:
-        status, payload = "404 Not Found", {"error": "Route not found."}
-    if payload is not None:
-        body = json.dumps(payload).encode("utf-8")
+    status = 200
+    try:
+        if method not in {"GET", "HEAD"}:
+            headers.append(("Allow", "GET, HEAD"))
+            raise catalog.CatalogError(405, "Use GET or HEAD.")
+        payload = dispatch(environ.get("PATH_INFO", "/"), environ.get("QUERY_STRING", ""))
+        body = json.dumps(payload, allow_nan=False).encode("utf-8")
+    except catalog.CatalogError as error:
+        status = error.status
+        body = json.dumps({"error": str(error)}).encode("utf-8")
+    except (PyMongoError, DatabaseConfigurationError):
+        status = 503
+        body = b'{"error":"The catalog database is unavailable. Please retry shortly."}'
+    except (ValueError, TypeError, KeyError):
+        # Never serialize driver errors, configuration values, or tracebacks.
+        status = 500
+        body = b'{"error":"The catalog could not be read. Please contact the site owner."}'
     headers.extend([
         ("Content-Length", str(len(body))),
-        ("Cache-Control", "public, max-age=0, must-revalidate" if status == "200 OK" else "no-store"),
+        ("Cache-Control", "no-store"),
         ("X-Content-Type-Options", "nosniff"),
     ])
-    start_response(status, headers)
+    if status == 503:
+        headers.append(("Retry-After", "5"))
+    start_response(f"{status} {HTTPStatus(status).phrase}", headers)
     return [body] if method != "HEAD" else []
 
 
 if __name__ == "__main__":
-    # Local preview only; Vercel loads the WSGI callable above in production.
     from wsgiref.simple_server import make_server
 
     with make_server("127.0.0.1", int(os.environ.get("PORT", "8000")), app) as server:

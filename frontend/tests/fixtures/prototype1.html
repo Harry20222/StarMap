@@ -11,7 +11,7 @@
       import { createElement } from "react";
       import { createRoot } from "react-dom/client";
       import { App } from "../../src/App.tsx";
-      import { joinGalaxyData } from "../../src/data/galaxies.ts";
+      import { joinGalaxyData, getComparison } from "./exports.ts";
       import original from "../../../results/prototype1_measurements.json" with { type: "json" };
       import markers from "../../../results/markers.json" with { type: "json" };
       import "../../src/styles.css";
@@ -24,7 +24,7 @@
         original,
       );
       createRoot(document.getElementById("root")).render(
-        createElement(App, { field }),
+        createElement(App, { field, comparisonLoader: async (_map, a, b) => getComparison(field, a, b) }),
       );
     </script>
   </body>

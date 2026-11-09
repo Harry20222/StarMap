@@ -8,13 +8,15 @@ import {
   joinGalaxyData,
   loadGalaxyField,
   type SelectableGalaxy,
-} from "../src/data/galaxies";
+} from "./fixtures/exports";
 import { layoutMarkers, markerPriority } from "../src/data/markerLayout";
+import { expectMeasurement } from "./measurement";
 
 const A = "goods-s-mediumjwst1180:208134";
 const B = "goods-s-deephst:10008071";
 const byId = new Map(measurements.galaxies.map((g) => [g.galaxy_id, g]));
 async function visibleIds(page: Page) {
+  await expect(page.locator(".galaxy-marker").first()).toBeVisible();
   return page
     .locator(".galaxy-marker")
     .evaluateAll((nodes) =>
@@ -56,27 +58,23 @@ async function assertPair(
   });
   await expect(panel.getByTestId("comparison-a")).toHaveText(a);
   await expect(panel.getByTestId("comparison-b")).toHaveText(b);
-  await expect(panel.getByTestId("comparison-angle")).toHaveAttribute(
-    "data-value",
-    expected.angular_separation.value.toString(),
+  await expectMeasurement(panel.getByTestId("comparison-angle"),
+    expected.angular_separation.value,
   );
-  await expect(panel.getByTestId("comparison-distance-a")).toHaveAttribute(
-    "data-value",
+  await expectMeasurement(panel.getByTestId("comparison-distance-a"),
     (sameOrder
       ? expected.distance_from_us_a
       : expected.distance_from_us_b
-    ).value.toString(),
+    ).value,
   );
-  await expect(panel.getByTestId("comparison-distance-b")).toHaveAttribute(
-    "data-value",
+  await expectMeasurement(panel.getByTestId("comparison-distance-b"),
     (sameOrder
       ? expected.distance_from_us_b
       : expected.distance_from_us_a
-    ).value.toString(),
+    ).value,
   );
-  await expect(panel.getByTestId("comparison-3d")).toHaveAttribute(
-    "data-value",
-    expected.estimated_3d_separation.value.toString(),
+  await expectMeasurement(panel.getByTestId("comparison-3d"),
+    expected.estimated_3d_separation.value,
   );
   await expect(page.getByTestId("comparison-line")).toHaveCount(1);
 }

@@ -5,8 +5,9 @@ import { GalaxyPopup } from "./components/GalaxyPopup";
 import { ArrowIcon, FieldIcon } from "./components/Icons";
 import { ComparisonPanel } from "./components/ComparisonPanel";
 import { Term } from "./components/InfoTip";
+import type { ComparisonLoader } from "./data/api";
 
-export function App({ field }: { field: GalaxyField }) {
+export function App({ field, comparisonLoader }: { field: GalaxyField; comparisonLoader?: ComparisonLoader }) {
   const [selected, setSelected] = useState<SelectableGalaxy | null>(null);
   const [mode, setMode] = useState<"inspect" | "compare">("inspect");
   const [startId, setStartId] = useState<string | null>(null);
@@ -137,6 +138,7 @@ export function App({ field }: { field: GalaxyField }) {
                 startId={startId}
                 pairIds={pairIds}
                 onClear={clearComparison}
+                comparisonLoader={comparisonLoader}
               />
             ) : selected ? (
               <GalaxyPopup

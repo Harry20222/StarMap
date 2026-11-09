@@ -318,6 +318,7 @@ export function GalaxyMap({
               with selectable quality-A galaxies
             </title>
             <MapImage
+              assets={field.imageAssets}
               mode={imageMode}
               displayWidth={displayWidth}
               width={field.width}

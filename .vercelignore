@@ -1,4 +1,6 @@
 # Anchor repository folders so /data/ does not match frontend/src/data/.
+/.env
+/.env.*
 /my_venv/
 /.venv/
 /.pytest_cache/

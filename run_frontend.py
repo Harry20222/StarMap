@@ -14,6 +14,7 @@ def main():
     if not vite.is_file():
         raise SystemExit("Install the frontend dependencies first: run npm ci inside the frontend folder.")
     print("Opening the StarMap field explorer. Stop this script to stop its preview server.", flush=True)
+    print("Start the MongoDB-backed Python API separately: python app.py", flush=True)
     try:
         result = subprocess.run([node, str(vite), "--host", "127.0.0.1", "--open"], cwd=frontend)
     except KeyboardInterrupt:

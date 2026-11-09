@@ -1,17 +1,19 @@
 import { useEffect, useRef } from "react";
 import {
   formatDistance,
-  getComparison,
   type GalaxyField,
 } from "../data/galaxies";
 import { Term } from "./InfoTip";
 import { CloseIcon } from "./Icons";
+import { useComparison } from "../data/useComparison";
+import type { ComparisonLoader } from "../data/api";
 
 type ComparisonPanelProps = {
   field: GalaxyField;
   startId: string | null;
   pairIds: [string, string] | null;
   onClear: () => void;
+  comparisonLoader?: ComparisonLoader;
 };
 
 export function ComparisonPanel({
@@ -19,6 +21,7 @@ export function ComparisonPanel({
   startId,
   pairIds,
   onClear,
+  comparisonLoader,
 }: ComparisonPanelProps) {
   const panel = useRef<HTMLElement>(null);
   const a = pairIds?.[0],
@@ -29,7 +32,7 @@ export function ComparisonPanel({
     if (window.matchMedia("(max-width: 980px)").matches)
       panel.current?.scrollIntoView({ block: "nearest" });
   }, [a, b]);
-  const pair = a && b ? getComparison(field, a, b) : null;
+  const { pair, loading, error, retry } = useComparison(field.mapId, a, b, comparisonLoader);
   return (
     <section
       ref={panel}
@@ -49,6 +52,11 @@ export function ComparisonPanel({
           <CloseIcon />
         </button>
       </div>
+      {pairIds && (loading || error) && <div className="comparison-empty" aria-live="polite" aria-busy={loading}>
+        <h2>{loading ? "Calculating separation…" : "Comparison unavailable."}</h2>
+        <p>A · {a}</p><p>B · {b}</p>
+        {error && <><p role="alert">{error}</p><button className="retry-button" onClick={retry}>Retry comparison</button></>}
+      </div>}
       {pair ? (
         <>
           <div className="comparison-identities">
@@ -122,7 +130,7 @@ export function ComparisonPanel({
             Choose another pair, or press <kbd>Esc</kbd> to clear.
           </p>
         </>
-      ) : (
+      ) : !pairIds ? (
         <div className="comparison-empty">
           <h2>{startId ? "Choose galaxy B." : "Connect two galaxies."}</h2>
           {startId && <p className="full-galaxy-id">A · {startId}</p>}
@@ -136,7 +144,7 @@ export function ComparisonPanel({
             line.
           </p>
         </div>
-      )}
+      ) : null}
     </section>
   );
 }

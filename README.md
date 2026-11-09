@@ -1,46 +1,75 @@
 # StarMap: JADES galaxy distances
 
-A Python backend and React/TypeScript field explorer for learning to match JWST
-images to galaxy catalogs and measure distances with Astropy's **Planck18** cosmology. The bundled
-sample contains **43 deduplicated JADES galaxies with flag-A spectroscopic redshifts**
-inside the same GOODS-S cutout. All **903 unique pairs** are exported for the
-frontend; the original three regression pairs are still printed in the terminal.
-Calculations and the frontend run without a Python API server.
+StarMap is a React/TypeScript field explorer with a read-only Python WSGI API.
+The website loads the GOODS-S map and **43 quality-A galaxies from MongoDB**.
+The backend uses the unchanged Astropy **Planck18** functions to calculate a
+comparison only when requested. Images remain static WebP assets.
 
-## Requirements and scope
+The existing JSON files remain migration sources and regression fixtures,
+including all **903 unique pairs**. The production browser does not import them
+and displays an error with Retry if the API/database is unavailable.
 
-The prototype implements the current Python milestone:
+## Local setup and migration
 
-- Match separate image and catalog products using celestial coordinates and the
-  image WCS, retaining galaxy IDs, redshifts, quality flags, and source metadata.
-- For each selected pair, print and export angular separation in degrees,
-  comoving distance from us to A and to B in light-years, and their estimated
-  comoving 3D separation in light-years.
-- Use Planck18 consistently, keep quality flags separate from numerical errors,
-  and explicitly represent missing reliable distance information as unknown.
-- Make pair selection editable by galaxy ID. Separate loading, selection,
-  calculations, and output; provide a CLI and cached source retrieval.
-- Verify source rows, image positions, and calculations; include meaningful tests.
+Use Python 3.11+ and Node.js 20.19+ or 22.12+ (tested here with Node 24).
+From the repository root in PowerShell, reuse the existing `my_venv` or create it:
 
-Frontend Prototype 2 provides **Inspect** and **Compare** modes. Inspect opens the
-existing single-galaxy popup. Compare lets you drag between two visible rings or
-select two in sequence by click, tap, or keyboard. The panel identifies A and B
-and displays angular separation, each galaxy's comoving distance from us, and
-estimated 3D comoving separation, all from the Python/Astropy Planck18 exports.
-Scientific terms have circled, superscript-style information buttons that work
-on hover, keyboard focus, and mobile tap.
+```powershell
+py -m venv my_venv
+.\my_venv\Scripts\python.exe -m pip install -e ".[dev]"
+# Only if .env does not already exist:
+Copy-Item .env.example .env
+```
 
-The original 15-galaxy dataset is retained as `data/prototype1_sample.json`, with
-all 105 pairs in `results/prototype1_measurements.json`. A browser fixture tests
-the same comparison UI against this original sample before the expanded data.
+Set **both** `MONGODB_URI` and `MONGODB_DATABASE` in `.env`. There is no default
+database name. Existing process environment values override `.env`; never
+prefix these settings with `VITE_`. `.env` and `.env.*` are ignored by Git and
+excluded from Vercel uploads/function bundles. `.env.example` has empty placeholders.
+Do not overwrite an existing `.env` when following setup instructions.
 
-## Frontend: open the field explorer
+```powershell
+.\my_venv\Scripts\python.exe connect_mongodb.py
+.\my_venv\Scripts\python.exe migrate_mongodb.py --validate-only
+.\my_venv\Scripts\python.exe migrate_mongodb.py
+# Repeat to verify idempotence: inserted and modified counts should be zero.
+.\my_venv\Scripts\python.exe migrate_mongodb.py
+# Read-only check of every imported field and all 903 API comparisons:
+.\my_venv\Scripts\python.exe verify_mongodb.py
+```
 
-The frontend is in `frontend/` and uses React, TypeScript, CSS, and Vite. It
-imports the backend JSON files and derived display images directly; **no Python API server
-is needed**. Node.js 20.19+ or 22.12+ is required (Node 24 was used here).
+The importer validates source/export metadata and unique IDs, all 43 quality-A
+records, finite coordinates, null meanings, image dimensions, FITS checksum,
+and every marker's WCS projection **before writing**. It preserves catalog
+versions, source row indices, separate NIRSpec/NIRCam/size-catalog IDs, ICRS
+degrees, redshift uncertainty status, and F200W half-light radii in arcseconds.
 
-First-time setup, from the repository root:
+Collections:
+
+- `galaxies`: full stable `galaxy_id`, catalog fields, uncertainty/size metadata,
+  and catalog provenance. Individual distances are calculated by Python on reads.
+- `maps`: stable `map_id` **`goods-s`**, dataset/cosmology metadata, original image
+  references and static variant names, shape `[2000, 2000]`, serialized celestial
+  WCS, crop geometry, coordinate frame/units, and browser coordinate conventions.
+- `map_markers`: `map_id`, `galaxy_id`, original `x`, `y`, inside-image status,
+  and roundtrip residual. One galaxy can have different positions in other maps.
+
+Unique indexes protect galaxy IDs, map IDs, and `(map_id, galaxy_id)` memberships.
+Scoped `$set` upserts retain unrelated records, collections, and extra fields.
+The importer never drops collections, deletes records, or stores images/pair tables.
+It refuses unexpected markers on this specific map instead of removing them.
+The import is rerunnable after interruption; it is not a multi-document transaction.
+Run it before enabling a new map publicly. Verification checks the exact expected
+43 IDs, all source metadata and nulls, and every original marker double.
+
+## Run the website
+
+Start Python from the repository root:
+
+```powershell
+.\my_venv\Scripts\python.exe app.py
+```
+
+In a second terminal:
 
 ```powershell
 cd frontend
@@ -48,149 +77,113 @@ npm ci
 npm run dev
 ```
 
-Open the Local URL printed by Vite. For subsequent runs, open **`run_frontend.py`**
-in your editor and press **Run**. It starts the Node/Vite preview and opens your
-browser; stop the script to stop that preview. This launcher is optional and
-does not run a Python web server. `run_starmap.py` still runs the backend exports.
+Open the Vite Local URL. Vite proxies `/api` to `http://127.0.0.1:8000` without
+removing the prefix. For a different local Python port set `PORT` on Python and
+`STARMAP_API_PROXY` on Vite. This optional proxy setting is a development server
+address, not a browser credential. `run_frontend.py` starts the Vite browser preview;
+start Python separately. `npm run build` in `frontend` performs the TypeScript
+check and creates `dist/`. For `npm run preview`, keep Python running; the same
+proxy is configured for that local preview. Production requires both services.
 
-Thin green rings identify visible quality-A galaxies. Apparent F200W half-light
-radii from the documented DR2 photometric catalog rank equally reliable galaxies
-when rings would overlap. The layout is recomputed at the current display size,
-including room for selected outlines. **Find a galaxy** searches every ID,
-including galaxies whose rings are hidden. Search results work with click/tap,
-Arrow keys, and Enter. Selected rings always appear at their actual coordinates,
-and other colliding rings are hidden. Two close selected rings may overlap;
-both IDs remain visible in the comparison panel.
-The legend reports visible and total counts (for example, about 39 on desktop
-and 28 on a 390-pixel phone viewport, out of 43 records). Counts can vary with width.
-A selected galaxy gets a distinct amber outline.
-Click another ring to update the inspector, or dismiss with its close button or
-Escape. Tab and Enter/Space also select markers. On small screens, the inspector
-appears below the image and scrolls into view without covering the other rings.
-In Compare mode, select A and B using the map, search, or a mixture of both.
-**Try an example pair** selects 21598 and 21842 using their existing exported
-measurements. Dragging to empty sky or back onto the starting ring cancels the
-unfinished line. Selections remain visible through resizing. Clicking the active
-mode does nothing; switching modes and the intentional clear controls reset it.
-The drawn line represents separation on the sky; the 3D estimate also uses both
-galaxies' radial comoving distances. Escape or Clear comparison resets the pair.
+Inspect/Compare modes, search including hidden rings, size-based overlap handling,
+drag/click/tap/keyboard selection, the example pair (21598/21842), scientific
+explanations, color/grayscale switching, and mobile layouts retain their behavior.
+Selected galaxies stay pinned at their true coordinates. Metadata still specifies
+zero-based **pixel centers**, lower origin, and `y_display = height - 1 - y`.
+The image and overlay share a viewBox beginning at `-0.5`, preserving alignment.
+Loading, empty and failure states provide Retry; failed comparisons retain the
+selection and offer Retry comparison. Aborted/older requests cannot replace newer
+selections. Fetching and joining live data are separate from display components.
 
-To refresh data or imagery after backend changes, run these from the repo root:
+## Read-only API
 
-```powershell
-.\my_venv\Scripts\python.exe run_starmap.py
-.\my_venv\Scripts\python.exe -m starmap.imaging
-```
+All routes accept GET/HEAD; other methods receive JSON 405:
 
-Vite notices changes to the imported files during development. A production build
-must be rebuilt after exports change. From `frontend/`, `npm run build` creates
-the self-contained static site in `dist/`; `npm run preview` serves that build.
-The image, fonts, and catalog data are bundled locally. Use a static HTTP server
-to view the build rather than double-clicking its HTML file.
+- `/api`: route discovery.
+- `/api/health`: database ping; 503 when unavailable.
+- `/api/maps`: available map summaries.
+- `/api/maps/goods-s`: selected map metadata and static image references.
+- `/api/maps/goods-s/galaxies`: galaxies with current per-galaxy Python distances
+  and their original map-specific marker positions. Contains no pair table.
+- `/api/maps/goods-s/compare?a=goods-s-deephst%3A21598&b=goods-s-deephst%3A21842`:
+  Python/Astropy comparison in the requested A/B order.
 
-The map uses 640/1280/2000-pixel WebP variants generated once from the unchanged
-PNG cutouts. Image resolution follows the actual map width and pixel density;
-the SVG coordinate system stays fixed. Grayscale bytes are fetched only after
-the user chooses that mode. Regenerate variants with
-`python frontend/scripts/export_map_images.py` after updating the source PNGs.
+Only specific validated IDs and exact parameters are accepted. Both galaxies
+must belong to the map. Invalid IDs/parameters or self-comparisons return 400;
+unknown maps, nonmembers and missing galaxy records return 404; incomplete or
+malformed stored catalogs return 500; database/configuration failures return 503
+with Retry-After. Driver diagnostics/credentials are never returned. Responses
+use `Cache-Control: no-store`. The former export-serving routes return 404.
 
-See `frontend/README.md` for component structure, data flow, and browser tests.
+Angular separation stays in **degrees**; individual radial comoving distances
+and estimated **3D comoving separation** stay in **light-years**. Missing
+coordinates/redshifts or qualities outside A/B produce null affected measurements
+and explicit reasons. Valid unaffected measurements remain available. Uncertainty
+is not propagated; quality flags never become numeric error bars.
 
-## Vercel deployment
+## Vercel deployment and database permissions
 
-The root `vercel.json` proposes two services in one Vercel project. Confirm the
-service names and public exposure before deploying:
+The existing two-service `vercel.json` routing is retained: `/api` and `/api/*`
+go to Python `app:app` with the original prefix; all other requests go to the
+Vite frontend. Keep the Vercel project Root Directory at the repository root.
+Python's base `pyproject.toml` dependencies now include PyMongo, DNS/SRV support,
+python-dotenv, and the scientific runtime; deployment does not require an optional
+MongoDB extra. Python bundles `starmap/**` and excludes images, exports, test data,
+local environments and `.env` files. Static assets stay in the frontend build.
+[Vercel Python dependency documentation](https://vercel.com/docs/functions/runtimes/python).
 
-- **frontend**, rooted at `frontend/`, builds with `npm ci` and `npm run build`,
-  and serves `dist/`. The catch-all public rewrite sends `/` and static asset
-  requests here.
-- **app**, rooted at the repository root, uses the Python WSGI entrypoint
-  `app:app`. Public `/api` and `/api/*` requests go here, preserving the original
-  path prefix. Its read-only routes are `/api/health`, `/api/markers.json`, and
-  `/api/measurements.json`; `/api` lists the exports. Unknown API routes return
-  JSON 404 responses, and writes return 405. This adapter serves the existing
-  export bytes; generating datasets remains a local/offline operation.
-  `python app.py` is the service's explicit development command; it listens on
-  the `PORT` injected by `vercel dev`. Production loads the WSGI callable.
+Configure **`MONGODB_URI` and `MONGODB_DATABASE` on the Python `app` service** for
+Production and any Preview/Development environments that should access the catalog.
+Use the selected database's name explicitly and a URI preserving authentication/TLS
+options. Redeploy after changing runtime settings. Do not put these variables on
+the frontend service or expose a `VITE_*` version. The Python process lazily reuses
+one pooled PyMongo client with bounded connection, selection, socket, pool wait,
+and operation timeouts. [MongoDB client documentation](https://www.mongodb.com/docs/languages/python/pymongo-driver/current/connect/mongoclient/).
 
-**No inter-service bindings are declared.** The React app imports the JSON files
-at build time and makes no runtime HTTP calls to Python; neither service calls
-the other. The local `127.0.0.1` addresses belong only to the development launcher
-and browser tests. Public MAST URLs identify observation sources. None is an
-internal service address to replace. A binding would belong on a future
-server-side caller, with its URL read at function runtime; do not introduce a
-`VITE_*` binding or set a binding URL manually. See Vercel's
-[service bindings documentation](https://vercel.com/docs/services/bindings).
+Use separate MongoDB users:
 
-Keep the Vercel **project Root Directory at the repository root (`.`)** so the
-root services config and shared `results/` assets are available; the frontend
-service has its own root. Use Node.js 24 for the frontend. Python's supported
-runtime version is selected from the existing `pyproject.toml` constraints.
-No environment variables or secrets are required by the current services.
+- **Migration operator:** `readWrite` on the selected database (including createIndex).
+  Run the migration locally with this credential. It is not needed by the website.
+- **Public Python service:** `read` on that database, or a custom role limited to
+  reads on `maps`, `galaxies`, and `map_markers`. The API never creates indexes or
+  writes data. Give preview deployments equivalent read-only access if enabled.
 
-To test both services and the public routing together from the repository root,
-use the current Vercel CLI:
+Allow the Python service's network traffic in Atlas using your deployment's
+network configuration. Test `/api/health`, map list/catalog and a comparison after
+redeploying. No live deployment is performed by the import scripts. Existing CSP
+`frame-ancestors 'none'` and immutable caching for hashed static assets are unchanged.
+Confirm actual response headers and routing on the deployed domain.
 
-```powershell
-npx vercel@latest dev --local
-```
+For combined local Vercel routing, use `npx vercel@latest dev --local` from the root
+(or `npx vercel@latest dev` with a linked project). On Windows, if its native builder
+fails creating symlinks, `$env:VERCEL_CLI_USE_NATIVE_BINARY = "0"` selects the JS CLI.
 
-`--local` is Vercel's unauthenticated local mode. With a linked project, use
-`npx vercel@latest dev` instead. The command reports the local URL. Verify `/`
-loads the map, both image modes work, and `/api/health`, `/api/markers.json`, and
-`/api/measurements.json` respond. `/api/missing` should return JSON 404 rather
-than the frontend page. The website continues to use the bundled exports, so
-commit regenerated JSON and rebuild when the data changes.
-
-On this Windows machine, Vercel CLI 65.11.0's native builder installer failed
-with `EPERM` creating symlinks. Its bundled JavaScript CLI successfully ran the
-combined preview. For the same issue, select that fallback for the current
-PowerShell session:
+## Automated verification
 
 ```powershell
-$env:VERCEL_CLI_USE_NATIVE_BINARY = "0"
-npx vercel@latest dev --local
+.\my_venv\Scripts\python.exe -m pytest -q -p no:cacheprovider
+cd frontend
+npx playwright install chromium
+npm test
+npm run build
 ```
 
-To undo the temporary choice, run
-`Remove-Item Env:VERCEL_CLI_USE_NATIVE_BINARY`. No Windows permission changes
-are needed for this workaround.
+Backend and browser tests use fresh **mongomock databases**, never `.env` or the
+selected live database. Browser tests start the actual WSGI API on port 8001 and
+Vite on 5173 with an isolated proxy. Set `STARMAP_TEST_PYTHON` to the Python
+interpreter with `.[dev]` installed if auto-detection does not fit your environment.
+Stop other servers on these test ports first. The database failure check uses
+a closed loopback port with a short timeout.
 
-Validation: `tests/test_web.py` checks WSGI conformance, exact export bytes,
-HEAD, method rejection, and prefixed routes. The production frontend build
-passes. Combined `vercel dev --local` checks returned 200 for `/`, `/api`,
-`/api/health`, and both exports, plus JSON 404 for `/api/missing`.
+Checks cover migration idempotence, unique indexes, preservation of unrelated data,
+all 43 records/positions/nulls, all **903 WSGI comparisons** at `1e-10` relative
+and `1e-12` absolute tolerance, missing records, membership, invalid IDs,
+unavailable distances, connection/configuration failures, and desktop/mobile
+search, pointer/keyboard selection, overlaps, image alignment and retry behavior.
+`verify_mongodb.py` separately runs read-only verification against the configured
+real database. JSON fixtures are unchanged and available for offline science.
 
-After confirming names, routing, and bindings, import this repository into one
-Vercel project or deploy from its root with the CLI. The deployment config keeps
-build/runtime options inside each service and public rewrites at the top level,
-as required by [Vercel Services](https://vercel.com/docs/services). The Python
-function explicitly includes the two exports and excludes frontend/image/data
-files from its runtime bundle. `.vercelignore` also omits local environments,
-caches, test fixtures, and review screenshots from CLI uploads, while retaining
-both real map PNGs and the two current exports for the frontend build.
-
-The top-level response headers set **Content-Security-Policy:
-`frame-ancestors 'none';`**, since the portfolio only links to StarMap. A separate
-rule applies **Cache-Control: `public, max-age=31536000, immutable`** only to
-Vite-generated `/assets/<name>-<8-character-hash>.<extension>` paths. The homepage,
-stable filenames, and read-only `/api` responses stay outside the immutable rule.
-Existing public routes and API behavior are preserved.
-
-After deploying, check the actual response headers on the live domain with
-`curl.exe -I https://starmap-rkdg.vercel.app/` and on one newly emitted hashed
-WebP/JS asset (use its exact filename from `frontend/dist/assets/`). Confirm CSP
-is present, hashed assets receive immutable caching, and `/`, `/index.html`,
-and `/api/measurements.json` do not receive immutable caching. Local config and
-development-server checks do not establish what the production CDN returns.
-In the checked Vercel CLI 65.11.0 services preview, the top-level CSP/cache header
-overrides were not emitted. Vercel's own route compiler did validate the cache
-matcher against all 40 generated assets and reject the homepage, API, and stable
-asset names. Check the actual headers after deployment rather than treating the
-development preview as proof of CDN behavior. The embedding directive is
-documented in [MDN's frame-ancestors reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/frame-ancestors).
-
-## Install and run
+## Offline scientific exports
 
 Python 3.11+ is supported by the dependency declarations. The checked environment
 used Python 3.14.3, Astropy 8.0.2, NumPy 2.5.4, SciPy 1.18.1, Matplotlib 3.11.2,
@@ -238,7 +231,7 @@ files alongside the launcher; it uses the existing modules and bundled data.
 
 Edit `data/pairs.json` to change the terminal regression examples. The normal
 JSON export still contains every unique pair. `--pair` explicitly restricts an
-export, so use `--output results/custom.json` to preserve the full frontend data.
+export, so use `--output results/custom.json` to preserve the migration and regression fixtures.
 IDs use `TIER:NIRSpec_ID`;
 all available IDs and metadata are in `data/sample.json`. An unknown ID produces
 a clear CLI error. The `--sample`, `--pairs`, and `--output` options accept custom
@@ -453,9 +446,9 @@ pixel-only PNGs, preserving their full extent and orientation.
 
 Schema 1.2 additionally records the optional apparent-size fields and exports
 every unique pair by default: n(n−1)/2 results for n records. There are 105 for
-the archived initial sample and 903 for the expanded sample. The frontend joins
-records by full ID and looks up Python-calculated pairs, swapping A/B radial
-distances when the user chooses the reverse order; it does not recompute cosmology.
+the archived initial sample and 903 for the expanded sample. The production frontend joins MongoDB-backed API records by full ID and requests
+Python-calculated comparisons in selection order. These exports remain migration
+sources and regression fixtures; the browser does not load them or calculate cosmology.
 
 ## Data attribution
 

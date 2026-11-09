@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import measurements from "../../results/measurements.json" with { type: "json" };
 import markers from "../../results/markers.json" with { type: "json" };
+import { expectMeasurement } from "./measurement";
 
 const exampleA = "goods-s-deephst:21598";
 const exampleB = "goods-s-deephst:21842";
@@ -9,6 +10,7 @@ const marker = (page: Page, id: string) =>
   page.locator(`[data-galaxy-id="${id}"]`);
 
 async function ids(page: Page) {
+  await expect(page.locator(".galaxy-marker").first()).toBeVisible();
   return page
     .locator(".galaxy-marker")
     .evaluateAll((nodes) => nodes.map((n) => n.getAttribute("data-galaxy-id")));
@@ -58,10 +60,7 @@ async function pair(page: Page, a: string, b: string) {
     ],
     ["3d", expected.estimated_3d_separation.value],
   ] as const)
-    await expect(page.getByTestId(`comparison-${name}`)).toHaveAttribute(
-      "data-value",
-      String(value),
-    );
+    await expectMeasurement(page.getByTestId(`comparison-${name}`), value);
   await expect(page.getByTestId("comparison-line")).toHaveCount(1);
   for (const id of [a, b]) {
     await expect(marker(page, id)).toHaveClass(/is-selected/);

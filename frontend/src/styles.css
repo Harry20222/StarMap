@@ -1201,3 +1201,13 @@ kbd {
     font-size: 11px;
   }
 }
+
+.retry-button {
+  padding: 10px 16px;
+  border: 1px solid var(--accent, #9ac8a7);
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}

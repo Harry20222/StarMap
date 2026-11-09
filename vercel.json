@@ -8,8 +8,8 @@
       "devCommand": "python app.py",
       "functions": {
         "app.py": {
-          "includeFiles": "{results/markers.json,results/measurements.json}",
-          "excludeFiles": "{data/**,frontend/**,tests/**,my_venv/**,.venv/**,.pytest_cache/**,results/*.png,results/*.jpg}"
+          "includeFiles": "starmap/**",
+          "excludeFiles": "{.env,.env.*,data/**,frontend/**,tests/**,my_venv/**,.venv/**,.pytest_cache/**,results/**}"
         }
       }
     },

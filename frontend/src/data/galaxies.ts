@@ -1,5 +1,4 @@
-import markersExport from "../../../results/markers.json" with { type: "json" };
-import measurementsExport from "../../../results/measurements.json" with { type: "json" };
+import { imageSources } from "./imageAssets";
 
 export type Distance = {
   value: number | null;
@@ -33,18 +32,14 @@ export type PairMeasurement = {
   estimated_3d_separation: Distance;
 };
 
-export function pairKey(a: string, b: string): string {
-  return JSON.stringify([a, b].sort());
-}
+export type ImageAssets = Record<"color" | "grayscale", { asset: string; width: number }[]>;
 
-export type MarkerExport = {
+export type MapMetadata = {
+  map_id: string;
   shape_yx: number[];
   pixel_origin: number;
   display_origin: string;
-  markers: { galaxy_id: string; x: number; y: number; inside_image: boolean }[];
-};
-
-export type MeasurementExport = {
+  image_assets: ImageAssets;
   cosmology: { name: string };
   dataset: {
     field: string;
@@ -54,135 +49,64 @@ export type MeasurementExport = {
     image_version: string;
     catalog_version: string;
   };
-  galaxies: GalaxyRecord[];
-  pairs: PairMeasurement[];
 };
 
-export type SelectableGalaxy = GalaxyRecord & {
-  x: number;
-  y: number;
-  shortId: string;
+export type MapCatalog = {
+  map_id: string;
+  galaxies: GalaxyRecord[];
+  markers: { galaxy_id: string; x: number; y: number; inside_image: boolean }[];
 };
+
+export type SelectableGalaxy = GalaxyRecord & { x: number; y: number; shortId: string };
 export type GalaxyField = {
+  mapId: string;
   width: number;
   height: number;
+  imageAssets: ImageAssets;
   label: string;
   cosmology: string;
-  dataset: MeasurementExport["dataset"];
+  dataset: MapMetadata["dataset"];
   galaxies: SelectableGalaxy[];
-  comparisons: Map<string, PairMeasurement>;
 };
 
-export function joinGalaxyData(
-  markers: MarkerExport,
-  measurements: MeasurementExport,
-): GalaxyField {
-  const [height, width] = markers.shape_yx;
-  if (
-    markers.shape_yx.length !== 2 ||
-    !Number.isInteger(width) ||
-    !Number.isInteger(height) ||
-    width <= 0 ||
-    height <= 0 ||
-    markers.pixel_origin !== 0 ||
-    markers.display_origin !== "lower"
-  ) {
+export function joinGalaxyData(metadata: MapMetadata, catalog: MapCatalog): GalaxyField {
+  const [height, width] = metadata.shape_yx;
+  if (metadata.shape_yx.length !== 2 || !Number.isInteger(width) || !Number.isInteger(height) ||
+      width <= 0 || height <= 0 || metadata.pixel_origin !== 0 || metadata.display_origin !== "lower")
     throw new Error("The image coordinate information is not supported.");
+  if (metadata.map_id !== catalog.map_id || metadata.cosmology.name !== "Planck18")
+    throw new Error("The map and galaxy catalog do not match.");
+  for (const mode of ["color", "grayscale"] as const) {
+    const variants = metadata.image_assets[mode];
+    if (!variants?.length || variants.some((v, i) => !Number.isInteger(v.width) || v.width <= 0 || !imageSources[v.asset] ||
+        (i > 0 && v.width <= variants[i - 1].width)))
+      throw new Error("The map image assets are invalid.");
   }
-  const byId = new Map(
-    measurements.galaxies.map((galaxy) => [galaxy.galaxy_id, galaxy]),
-  );
-  if (byId.size !== measurements.galaxies.length)
-    throw new Error("The galaxy catalog has duplicate IDs.");
+  const byId = new Map(catalog.galaxies.map((g) => [g.galaxy_id, g]));
+  if (byId.size !== catalog.galaxies.length) throw new Error("The galaxy catalog has duplicate IDs.");
   const seen = new Set<string>();
   const galaxies: SelectableGalaxy[] = [];
-  for (const marker of markers.markers) {
-    if (seen.has(marker.galaxy_id))
-      throw new Error("The image positions have duplicate galaxy IDs.");
+  for (const marker of catalog.markers) {
+    if (seen.has(marker.galaxy_id)) throw new Error("The image positions have duplicate galaxy IDs.");
     seen.add(marker.galaxy_id);
     const galaxy = byId.get(marker.galaxy_id);
-    if (!galaxy)
-      throw new Error("The galaxy catalog and image positions do not match.");
+    if (!galaxy) throw new Error("The galaxy catalog and image positions do not match.");
     if (galaxy.redshift_quality !== "A" || !marker.inside_image) continue;
-    if (
-      ![marker.x, marker.y].every(Number.isFinite) ||
-      marker.x < -0.5 ||
-      marker.x >= width - 0.5 ||
-      marker.y < -0.5 ||
-      marker.y >= height - 0.5
-    ) {
+    if (![marker.x, marker.y].every(Number.isFinite) || marker.x < -0.5 || marker.x >= width - 0.5 ||
+        marker.y < -0.5 || marker.y >= height - 0.5)
       throw new Error("A selectable galaxy falls outside the image.");
-    }
-    if (
-      !galaxy.distance_from_us ||
-      galaxy.distance_from_us.unit !== "ly" ||
-      galaxy.distance_from_us.convention !== "comoving"
-    ) {
-      throw new Error(
-        "Comoving galaxy distances are missing from the exported catalog.",
-      );
-    }
-    const distance = galaxy.distance_from_us.value;
-    if (distance !== null && (!Number.isFinite(distance) || distance < 0)) {
-      throw new Error("A galaxy distance is invalid.");
-    }
-    galaxies.push({
-      ...galaxy,
-      x: marker.x,
-      y: height - 1 - marker.y,
-      shortId: galaxy.nirspec_id?.toString() ?? galaxy.galaxy_id,
-    });
+    const distance = galaxy.distance_from_us;
+    if (!distance || distance.unit !== "ly" || distance.convention !== "comoving" ||
+        (distance.value !== null && (!Number.isFinite(distance.value) || distance.value < 0)))
+      throw new Error("A galaxy comoving distance is invalid.");
+    galaxies.push({ ...galaxy, x: marker.x, y: height - 1 - marker.y,
+      shortId: galaxy.nirspec_id?.toString() ?? galaxy.galaxy_id });
   }
-  const dataset = measurements.dataset;
-  const comparisons = new Map<string, PairMeasurement>();
-  for (const pair of measurements.pairs) {
-    if (
-      pair.galaxy_a_id === pair.galaxy_b_id ||
-      !byId.has(pair.galaxy_a_id) ||
-      !byId.has(pair.galaxy_b_id)
-    ) {
-      throw new Error("A comparison has invalid galaxy IDs.");
-    }
-    const key = pairKey(pair.galaxy_a_id, pair.galaxy_b_id);
-    if (comparisons.has(key)) throw new Error("Duplicate galaxy comparison.");
-    comparisons.set(key, pair);
-  }
-  if (comparisons.size !== (byId.size * (byId.size - 1)) / 2) {
-    throw new Error(
-      "The catalog needs all galaxy pair exports. Regenerate the backend measurements.",
-    );
-  }
-  return {
-    width,
-    height,
-    dataset,
-    galaxies,
-    comparisons,
-    cosmology: measurements.cosmology.name,
-    label: `${dataset.field} · ${dataset.filter} image (${dataset.image_release}) · galaxy catalog (${dataset.catalog_release}).`,
-  };
-}
-
-export function getComparison(
-  field: GalaxyField,
-  a: string,
-  b: string,
-): PairMeasurement {
-  const pair = field.comparisons.get(pairKey(a, b));
-  if (!pair) throw new Error("This pair is not in the exported measurements.");
-  if (pair.galaxy_a_id === a) return pair;
-  return {
-    ...pair,
-    galaxy_a_id: a,
-    galaxy_b_id: b,
-    distance_from_us_a: pair.distance_from_us_b,
-    distance_from_us_b: pair.distance_from_us_a,
-  };
-}
-
-export function loadGalaxyField(): GalaxyField {
-  // Import the backend exports directly. Vite bundles them; no Python API is involved.
-  return joinGalaxyData(markersExport, measurementsExport);
+  if (seen.size !== byId.size) throw new Error("The galaxy catalog and image positions do not match.");
+  const dataset = metadata.dataset;
+  return { mapId: metadata.map_id, width, height, imageAssets: metadata.image_assets, dataset, galaxies,
+    cosmology: metadata.cosmology.name,
+    label: `${dataset.field} · ${dataset.filter} image (${dataset.image_release}) · galaxy catalog (${dataset.catalog_release}).` };
 }
 
 export function formatDistance(distance: Distance): string {
