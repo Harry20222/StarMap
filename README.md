@@ -1,5 +1,6 @@
 # StarMap: JADES galaxy distances
-
+# NOTE: This version has been deployed but version shown on my website is one from main branch
+https://starmap-git-testing-me-5037.vercel.app/
 StarMap is a React/TypeScript field explorer with a read-only Python WSGI API.
 The website loads the GOODS-S map and **43 quality-A galaxies from MongoDB**.
 The backend uses the unchanged Astropy **Planck18** functions to calculate a
